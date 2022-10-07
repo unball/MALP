@@ -76,8 +76,11 @@ class World:
         for robot in message['Robots']:
             print('-'*20)
             print('Robot ',robot_id, robot)
-            print(f'update yellow[{robot_id}]')
-            yellow[robot_id].update(robot['x'], robot['y'], robot['orientation'], robot['vx'], robot['vy'], robot['vangular'])
+            print(f'update team[{robot_id}]')
+            if self.team_yellow: 
+                yellow[robot_id].update(robot['x'], robot['y'], robot['orientation'], robot['vx'], robot['vy'], robot['vangular'])
+            else:
+                blue[robot_id].update(robot['x'], robot['y'], robot['orientation'], robot['vx'], robot['vy'], robot['vangular'])
             robot_id+=1
         # for robot, pos in zip(self.team, teamPos): robot.update(*pos)
         # for robot, pos in zip(self.enemies, enemiesPos): robot.update(*pos)

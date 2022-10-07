@@ -13,7 +13,17 @@ import sys
 from client.client_pickle import ClientPickle
 
 class Loop:
-    def __init__(self, loop_freq=60, draw_uvf=False, team_yellow=True, team_side=1, immediate_start=False, static_entities=False):
+    def __init__(
+        self, 
+        loop_freq=60, 
+        draw_uvf=False, 
+        team_yellow=True, 
+        team_side=1, 
+        immediate_start=False, 
+        static_entities=False,
+        port=5001,
+        n_robots=5
+    ):
         # Instancia interface com o simulador
         #self.vss = VSS(team_yellow=team_yellow)
 
@@ -22,14 +32,14 @@ class Loop:
         #self.rp = RefereePlacement(team_yellow=team_yellow)
 
         # Instancia o mundo e a estratégia
-        self.world = World(5, side=team_side, team_yellow=team_yellow, immediate_start=immediate_start)
+        self.world = World(n_robots=n_robots, side=team_side, team_yellow=team_yellow, immediate_start=immediate_start)
         self.strategy = MainStrategy(self.world, static_entities=static_entities)
 
         # Variáveis
         self.loopTime = 1.0 / loop_freq
         self.running = True
         self.lastupdatecount = 0
-        self.pclient = ClientPickle()
+        self.pclient = ClientPickle(port)
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf

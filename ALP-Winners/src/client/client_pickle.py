@@ -2,10 +2,9 @@ import socket
 import pickle
 
 class ClientPickle:
-    def __init__(self):
+    def __init__(self, port=5001):
         self.host =socket.gethostname()
-        port = input('Connect to port: ')
-        self.port = int(port)
+        self.port = port
         self.psocket = socket.socket()
         self.psocket.connect((self.host, self.port))
         #while True:
