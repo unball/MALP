@@ -2,11 +2,10 @@ import pickle
 import socket
 
 class ServerPickle:
-    def __init__(self):
+    def __init__(self, port):
 
         self.host = socket.gethostname()
-        port = input('Connect to port: ')
-        self.port = int(port)
+        self.port = port
         psocket = socket.socket() 
         psocket.bind((self.host, self.port))
         print('Esperando cliente.....................................')

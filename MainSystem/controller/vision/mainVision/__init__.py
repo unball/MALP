@@ -10,8 +10,8 @@ import numpy as np
 class MainVision(Vision):
   """Classe que implementa a visão principal da UnBall, que utiliza segmentação por única cor e faz a identificação por forma."""
   
-  def __init__(self, world):
-    super().__init__(world)
+  def __init__(self, world, port):
+    super().__init__(world=world, port=port)
     
     self.__model = MainVisionModel()
     """Modelo `MainSystem.model.vision.mainVisionModel.MainVisionModel` que mantém as variáveis da visão"""

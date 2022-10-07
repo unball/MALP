@@ -15,7 +15,7 @@ from helpers import Mux
 class Controller:
   """Classe que declara a thread do backend e define o estado do sistema"""
   
-  def __init__(self):
+  def __init__(self, port):
     self.__thread = Thread(target=self.loop)
     """Thread que executa o backend do sistema"""
     
@@ -31,7 +31,7 @@ class Controller:
     self.world = World()
     """Essa é uma instância do mundo. O mundo contém informações sobre estado do campo como posição de robôs, velocidades, posição de bola e limites do campo."""
     
-    self.visionSystem = MainVision(self.world)
+    self.visionSystem = MainVision(self.world, port)
     """Instância do sistema de visão"""
     
     self.communicationSystems = Mux([SerialRadio(self.world)])
