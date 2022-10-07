@@ -15,7 +15,7 @@ from helpers import Mux
 class Controller:
   """Classe que declara a thread do backend e define o estado do sistema"""
   
-  def __init__(self, port):
+  def __init__(self, port, n_robots):
     self.__thread = Thread(target=self.loop)
     """Thread que executa o backend do sistema"""
     
@@ -28,7 +28,7 @@ class Controller:
     self.__events = queue.Queue()
     """Eventos agendados. Essa fila é útil para que a view agende eventos a serem executados no momento oportuno pelo backend, evitando condições de corrida."""
     
-    self.world = World()
+    self.world = World(n_robots=n_robots)
     """Essa é uma instância do mundo. O mundo contém informações sobre estado do campo como posição de robôs, velocidades, posição de bola e limites do campo."""
     
     self.visionSystem = MainVision(self.world, port)

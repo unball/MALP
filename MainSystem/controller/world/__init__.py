@@ -14,7 +14,7 @@ class Field():
 class World(ParamsPattern):
   """Classe de mundo que armazena as posições dos robôs, velocidades, posição da bola, limites de campo e escore de jogo."""
   
-  def __init__(self):
+  def __init__(self, n_robots):
     ParamsPattern.__init__(self, "worldConfig", {
       "UVF_r": 0.05,
       "UVF_Kr": 15,
@@ -41,7 +41,7 @@ class World(ParamsPattern):
     self.rg = np.array([-0.75, 0])
     self.goalAreaSize = np.array([0.3, 0.4])
     self.goalylength = 0.4
-    self.n_robots = 5
+    self.n_robots = n_robots
     self.fieldSide = Field.RIGHT
     self.running = False
     self.mus = [0.07, 0.07, 0.12, 0.07, 0.07]
