@@ -2,6 +2,7 @@ from client.referee import RefereeCommands, RefereePlacement
 from client.gui import clientProvider
 from strategy import MainStrategy
 from UVF_screen import UVFScreen
+from communication.serialRadio import SerialRadio
 from world import World
 from client import VSS
 
@@ -57,10 +58,12 @@ class Loop:
         self.strategy.update()
 
         # Executa o controle
-        # if not self.draw_uvf: 
-        #     self.vss.command.writeMulti([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
-        # else:
-        #     self.vss.command.writeMulti([(0,0) for robot in self.world.team])
+        if not self.draw_uvf: 
+            self.vss.command.writeMulti([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
+            SerialRadio.send([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
+        else:
+            self.vss.command.writeMulti([(0,0) for robot in self.world.team])
+            SerialRadio.send([(0,0) for robot in self.world.team])
 
         # Desenha no ALP-GUI
         #self.draw()
