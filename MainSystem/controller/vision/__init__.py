@@ -63,10 +63,10 @@ class Vision(ABC):
         for i in range(self._world.n_robots)
       ]
     }
-    print('-'*20)
-    print('Robots:')
-    for robot in message['Robots']:
-      print(type(robot), robot)
+    # print('-'*20)
+    # print('Robots:')
+    # for robot in message['Robots']:
+    #   print(type(robot), robot)
 
     self.server_pickle.send(message)
 

@@ -15,7 +15,7 @@ class ServerPickle:
         
     def send(self, data):
         message = pickle.dumps(data,-1)
-        print("Enviando: ",data)
+        # print("Enviando: ",data)
         self.conn.send(message)
     
     def end(self):

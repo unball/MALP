@@ -74,9 +74,9 @@ class World:
         #    blue[robot.robot_id].update(robot.x, robot.y, robot.orientation, robot.vx, robot.vy, robot.vorientation)
         robot_id = 0
         for robot in message['Robots']:
-            print('-'*20)
-            print('Robot ',robot_id, robot)
-            print(f'update team[{robot_id}]')
+            # print('-'*20)
+            # print('Robot ',robot_id, robot)
+            # print(f'update team[{robot_id}]')
             if self.team_yellow: 
                 yellow[robot_id].update(robot['x'], robot['y'], robot['orientation'], robot['vx'], robot['vy'], robot['vangular'])
             else:
@@ -86,7 +86,7 @@ class World:
         # for robot, pos in zip(self.enemies, enemiesPos): robot.update(*pos)
         #self.ball.update(message["ball_x"], message["ball_y"], message["ball_vx"], message["ball_vy"])
         self.ball.update(message['Ball']['x'], message['Ball']['y'], message['Ball']['vx'], message['Ball']['vy'])
-        print(f'\nBall: x = {self.ball.pos[0]}, y = {self.ball.pos[1]}, vx = {self.ball.v[0]}, vy = {self.ball.v[1]}')
+        # print(f'\nBall: x = {self.ball.pos[0]}, y = {self.ball.pos[1]}, vx = {self.ball.v[0]}, vy = {self.ball.v[1]}')
 
         self.updateCount += 1
 
