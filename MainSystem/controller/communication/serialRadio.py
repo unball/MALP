@@ -18,6 +18,7 @@ class SerialRadio(ParamsPattern, Communication):
     if self.serial is not None: self.serial.close()
 
   def send(self, msg, waitack=True):
+    return
     """Envia a mensagem via barramento serial em `/dev/ttyUSB0`."""
     try:
       if self.serial is None:
