@@ -41,6 +41,7 @@ class Loop:
         self.running = True
         self.lastupdatecount = 0
         self.pclient = ClientPickle(port)
+        self.radio = SerialRadio()
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -58,12 +59,18 @@ class Loop:
         self.strategy.update()
 
         # Executa o controle
-        if not self.draw_uvf: 
-            self.vss.command.writeMulti([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
-            SerialRadio.send([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
-        else:
-            self.vss.command.writeMulti([(0,0) for robot in self.world.team])
-            SerialRadio.send([(0,0) for robot in self.world.team])
+        
+        # self.radio.send([(50,25) for robot in self.world.team])
+        control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
+        # print(control_output)
+        
+        self.radio.send(control_output)
+        # if not self.draw_uvf: 
+        #     self.vss.command.writeMulti([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
+        #     SerialRadio.send([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
+        # else:
+        #     self.vss.command.writeMulti([(0,0) for robot in self.world.team])
+        #     SerialRadio.send([(0,0) for robot in self.world.team])
 
         # Desenha no ALP-GUI
         #self.draw()
