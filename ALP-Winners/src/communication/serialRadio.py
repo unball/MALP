@@ -17,7 +17,8 @@ class SerialRadio():
       if self.serial is None:
         self.serial = serial.Serial('/dev/ttyUSB0', 115200)
         self.serial.timeout = 0.100
-    except:
+    except Exception as e:
+      print(e)
       print("Falha ao abrir serial")
       return
 
