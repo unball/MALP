@@ -204,7 +204,7 @@ class DebugHLC(ParamsPattern, State):
     else: self._controller.communicationSystems.get().sendZero()
 
     # Garante que o tempo de loop é de no mínimo 16ms
-    time.sleep(max(0.016-(time.time()-self.t), 0))
+    time.sleep(max(0.011-(time.time()-self.t), 0))
 
     # Incrementa o número de loops
     self.loops += 1

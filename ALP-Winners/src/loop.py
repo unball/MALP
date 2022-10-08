@@ -16,7 +16,7 @@ from client.client_pickle import ClientPickle
 class Loop:
     def __init__(
         self, 
-        loop_freq=60, 
+        loop_freq=90, 
         draw_uvf=False, 
         team_yellow=True, 
         team_side=1, 
@@ -42,6 +42,8 @@ class Loop:
         self.lastupdatecount = 0
         self.pclient = ClientPickle(port)
         self.radio = SerialRadio()
+        
+        self.t0 = time.time()
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -53,6 +55,10 @@ class Loop:
 
     def loop(self):
         if self.world.updateCount == self.lastupdatecount: return
+        
+        print((time.time()-self.t0)*1000)
+        self.t0 = time.time()
+        
         self.lastupdatecount = self.world.updateCount
 
         # Executa estratégia

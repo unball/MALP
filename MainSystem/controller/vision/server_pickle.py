@@ -1,4 +1,5 @@
 import pickle
+import time
 import socket
 
 class ServerPickle:
@@ -13,9 +14,15 @@ class ServerPickle:
         self.conn, self.address = psocket.accept()  
         print("Connection from: " + str(self.address))
         
+        self.t0 = time.time()
+        
     def send(self, data):
+        print(1000*(time.time()-self.t0))
+        self.t0 = time.time()
+        
         message = pickle.dumps(data,-1)
         # print("Enviando: ",data)
+        # print(len(message))
         self.conn.send(message)
     
     def end(self):
