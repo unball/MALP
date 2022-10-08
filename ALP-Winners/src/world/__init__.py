@@ -70,13 +70,8 @@ class World:
             yellow = self.enemies
             blue = self.team
 
-        #for robot in message.frame.robots_blue:
-        #    blue[robot.robot_id].update(robot.x, robot.y, robot.orientation, robot.vx, robot.vy, robot.vorientation)
         robot_id = 0
         for robot in message['Robots']:
-            # print('-'*20)
-            # print('Robot ',robot_id, robot)
-            # print(f'update team[{robot_id}]')
             if self.team_yellow: 
                 yellow[robot_id].update(robot['x'], robot['y'], robot['orientation'], robot['vx'], robot['vy'], robot['vangular'])
             else:
