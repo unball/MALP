@@ -10,6 +10,8 @@ wheel_reduction = 5
 # O que realmente é
 r = 0.02
 L = 0.080
+wheel_w_max = 110
+conversion = 127 / wheel_w_max
 
 def speeds2motors(v: float, w: float) -> (int, int):
   """Recebe velocidade linear e angular e retorna velocidades para as duas rodas"""
@@ -22,10 +24,10 @@ def speeds2motors(v: float, w: float) -> (int, int):
   #  vr = max_motor_speed * vr / max(vr, vl)
   #  vl = max_motor_speed * vl / max(vr, vl)
   
-  # vr *= convertion
-  # vl *= convertion
+  vr = 2*int(sat(vr * conversion, 127))
+  vl = 2*int(sat(vl * conversion, 127))
   
-  return vl, vr
+  return vr, vl
 
 def motors2linvel(vl: float, vr: float) -> float:
   # Computa a velocidade angular de rotação de cada roda
