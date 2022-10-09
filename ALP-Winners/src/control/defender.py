@@ -44,7 +44,7 @@ class DefenderControl(Control):
     w = dth + self.kw * np.sign(eth) * np.sqrt(np.abs(eth)) + self.kw/100.0 * self.ieth 
 
     # Velocidade limite de deslizamento
-    v1 = self.amax / np.abs(w)
+    v1 = self.amax / np.abs(w) if np.abs(w) else self.amax
 
     # Velocidade limite das rodas
     v2 = self.vmax - self.L * np.abs(w) / 2
