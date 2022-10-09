@@ -48,13 +48,13 @@ class Field:
 
 class World:
     def __init__(self, n_robots=5, side=1, vss=None, team_yellow=False, immediate_start=False):
-        self._team = [TeamRobot(self, i, on=immediate_start) for i in range(n_robots)]
-        self.enemies = [TeamRobot(self, i, on=immediate_start) for i in range(n_robots)]
+        self.n_robots = n_robots
+        self._team = [TeamRobot(self, i, on=immediate_start) for i in range(self.n_robots)]
+        self.enemies = [TeamRobot(self, i, on=immediate_start) for i in range(self.n_robots)]
         self.ball = Ball(self)
         self.field = Field(side)
         self.vss = vss
         self.team_yellow = team_yellow
-
         self.allyGoals = 0
         self.enemyGoals = 0
         self.updateCount = 0
@@ -62,7 +62,7 @@ class World:
     def update(self, message):
         # teamPos = zip(message["ally_x"], message["ally_y"], message["ally_th"], message["ally_vx"], message["ally_vy"], message["ally_w"])
         # enemiesPos = zip(message["enemy_x"], message["enemy_y"], message["enemy_th"], message["enemy_vx"], message["enemy_vy"], message["enemy_w"])
-
+        
         if self.team_yellow: 
             yellow = self.team
             blue = self.enemies
@@ -70,18 +70,18 @@ class World:
             yellow = self.enemies
             blue = self.team
 
-        #for robot in message.frame.robots_blue:
-        #    blue[robot.robot_id].update(robot.x, robot.y, robot.orientation, robot.vx, robot.vy, robot.vorientation)
-        robot_id = 0
-        for i in range(message[4]):
+        for robot_id in range(message[4]):
             # print('-'*20)
             # print('Robot ',robot_id, robot)
             # print(f'update team[{robot_id}]')
             if self.team_yellow: 
-                yellow[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
+                yellow[robot_id].update(message[5+6*robot_id], message[6+6*robot_id], message[7+6*robot_id], message[8+6*robot_id], message[9+6*robot_id], message[10+6*robot_id])
             else:
-                blue[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
-            robot_id+=1
+                blue[robot_id].update(message[5+6*robot_id], message[6+6*robot_id], message[7+6*robot_id], message[8+6*robot_id], message[9+6*robot_id], message[10+6*robot_id])
+
+
+        robot_id = 0
+
         # for robot, pos in zip(self.team, teamPos): robot.update(*pos)
         # for robot, pos in zip(self.enemies, enemiesPos): robot.update(*pos)
         #self.ball.update(message["ball_x"], message["ball_y"], message["ball_vx"], message["ball_vy"])
