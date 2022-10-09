@@ -70,21 +70,17 @@ class Loop:
         
         control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
         
-        self.radio.send(control_output)
         if self.execute:
             self.radio.send(control_output)
         else:
             self.radio.send([(0,0) for robot in self.world.team])
 
         # Desenha no ALP-GUI
-        #self.draw()
+        # self.draw()
 
     def busyLoop(self):
         message = self.pclient.receive()
         self.execute = message[len(message)-1]
-        print('-'*30)
-        print('Execute: ',self.execute)
-        print('-'*30)
         if message is not None: self.world.update(message)
         
         # command = self.rc.receive()
