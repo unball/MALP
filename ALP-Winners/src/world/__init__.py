@@ -70,23 +70,29 @@ class World:
             yellow = self.enemies
             blue = self.team
 
-        #for robot in message.frame.robots_blue:
-        #    blue[robot.robot_id].update(robot.x, robot.y, robot.orientation, robot.vx, robot.vy, robot.vorientation)
         robot_id = 0
-        for robot in message['Robots']:
-            print('-'*20)
-            print('Robot ',robot_id, robot)
-            print(f'update team[{robot_id}]')
+<<<<<<< HEAD
+        for robot in range(message[4]):
             if self.team_yellow: 
-                yellow[robot_id].update(robot['x'], robot['y'], robot['orientation'], robot['vx'], robot['vy'], robot['vangular'])
+                yellow[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
             else:
-                blue[robot_id].update(robot['x'], robot['y'], robot['orientation'], robot['vx'], robot['vy'], robot['vangular'])
+                blue[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
+=======
+        for i in range(message[4]):
+            # print('-'*20)
+            # print('Robot ',robot_id, robot)
+            # print(f'update team[{robot_id}]')
+            if self.team_yellow: 
+                yellow[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
+            else:
+                blue[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
+>>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
             robot_id+=1
         # for robot, pos in zip(self.team, teamPos): robot.update(*pos)
         # for robot, pos in zip(self.enemies, enemiesPos): robot.update(*pos)
         #self.ball.update(message["ball_x"], message["ball_y"], message["ball_vx"], message["ball_vy"])
-        self.ball.update(message['Ball']['x'], message['Ball']['y'], message['Ball']['vx'], message['Ball']['vy'])
-        print(f'\nBall: x = {self.ball.pos[0]}, y = {self.ball.pos[1]}, vx = {self.ball.v[0]}, vy = {self.ball.v[1]}')
+        self.ball.update(message[0], message[1], message[2], message[3])
+        # print(f'\nBall: x = {self.ball.pos[0]}, y = {self.ball.pos[1]}, vx = {self.ball.v[0]}, vy = {self.ball.v[1]}')
 
         self.updateCount += 1
 

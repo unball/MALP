@@ -67,6 +67,7 @@ class CameraHandler():
       cap = cv2.VideoCapture(index)
       cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
       cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+
       #Codec da câmera atual
       fourcc = cv2.VideoWriter_fourcc('M', 'J', 'P', 'G')
       cap.set(cv2.CAP_PROP_FOURCC, fourcc)

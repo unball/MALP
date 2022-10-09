@@ -1,7 +1,9 @@
+from distutils.util import execute
 from client.referee import RefereeCommands, RefereePlacement
 from client.gui import clientProvider
 from strategy import MainStrategy
 from UVF_screen import UVFScreen
+from communication.serialRadio import SerialRadio
 from world import World
 from client import VSS
 
@@ -15,7 +17,7 @@ from client.client_pickle import ClientPickle
 class Loop:
     def __init__(
         self, 
-        loop_freq=60, 
+        loop_freq=90, 
         draw_uvf=False, 
         team_yellow=True, 
         team_side=1, 
@@ -40,6 +42,13 @@ class Loop:
         self.running = True
         self.lastupdatecount = 0
         self.pclient = ClientPickle(port)
+        self.radio = SerialRadio()
+<<<<<<< HEAD
+        self.execute = False
+=======
+        
+>>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
+        self.t0 = time.time()
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -51,23 +60,34 @@ class Loop:
 
     def loop(self):
         if self.world.updateCount == self.lastupdatecount: return
+        
+        print((time.time()-self.t0)*1000)
+        self.t0 = time.time()
+        
         self.lastupdatecount = self.world.updateCount
 
         # Executa estratégia
         self.strategy.update()
 
         # Executa o controle
-        # if not self.draw_uvf: 
-        #     self.vss.command.writeMulti([robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None])
-        # else:
-        #     self.vss.command.writeMulti([(0,0) for robot in self.world.team])
+        
+        control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
+        
+        self.radio.send(control_output)
+        if self.execute:
+            self.radio.send(control_output)
+        else:
+            self.radio.send([(0,0) for robot in self.world.team])
 
         # Desenha no ALP-GUI
         #self.draw()
 
     def busyLoop(self):
         message = self.pclient.receive()
-        #message = self.vss.vision.read()
+        self.execute = message[23]
+        print('-'*30)
+        print('Execute: ',self.execute)
+        print('-'*30)
         if message is not None: self.world.update(message)
         
         # command = self.rc.receive()
