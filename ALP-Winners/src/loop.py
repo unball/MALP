@@ -43,15 +43,8 @@ class Loop:
         self.lastupdatecount = 0
         self.pclient = ClientPickle(port)
         self.radio = SerialRadio()
-<<<<<<< HEAD
-        
-=======
-<<<<<<< HEAD
         self.execute = False
-=======
-        
->>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
->>>>>>> 66fd13e7271bf1e4a4da9cff768f0c5380b8f12b
+
         self.t0 = time.time()
 
         # Interface gráfica para mostrar campos
@@ -88,14 +81,10 @@ class Loop:
 
     def busyLoop(self):
         message = self.pclient.receive()
-<<<<<<< HEAD
         self.execute = message[len(message)-1]
-=======
-        self.execute = message[23]
         print('-'*30)
         print('Execute: ',self.execute)
         print('-'*30)
->>>>>>> 66fd13e7271bf1e4a4da9cff768f0c5380b8f12b
         if message is not None: self.world.update(message)
         
         # command = self.rc.receive()
