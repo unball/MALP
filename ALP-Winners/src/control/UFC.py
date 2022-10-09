@@ -26,14 +26,14 @@ class UFC_Simple(Control):
     self.vmax = vmax
     self.L = L
     self.kv = 10
-    self.vbias = 0.4
+    self.vbias = 0.2
 
     self.sd_min = 1e-4
     self.sd_max = 0.5
 
     self.lastth = [0,0,0,0]
     self.lastdth = 0
-    self.interval = Interval(filter=True, initial_dt=0.016)
+    self.interval = Interval(filter=False, initial_dt=0.016)
     self.lastnorm = 0
     self.enableInjection = enableInjection
     self.lastwref = 0
@@ -79,7 +79,7 @@ class UFC_Simple(Control):
     eth = angError(th, robot.th)
 
     # Tempo desde a última atuação
-    dt = 0.016#self.interval.getInterval()
+    dt = self.interval.getInterval()
 
     # Derivada da referência
     dth = filt(0.5 * (th - self.lastth[-1]) / dt + 0.2 * (th - self.lastth[-2]) / (2*dt) + 0.2 * (th - self.lastth[-3]) / (3*dt) + 0.1 * (th - self.lastth[-4]) / (4*dt), 10)

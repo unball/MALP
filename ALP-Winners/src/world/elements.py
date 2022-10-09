@@ -1,6 +1,6 @@
 import time
 from tools.interval import Interval
-from tools import adjustAngle, norml, derivative, angularDerivative, unit, angl
+from tools import adjustAngle, norml, derivative, angularDerivative, unit, angl, ang
 from control.UFC import UFC_Simple
 import numpy as np
 import math
@@ -172,6 +172,11 @@ class TeamRobot(Robot):
     @property
     def w(self):
         return self.world.field.side * self.w_raw
+    
+    @property
+    def v_signed(self):
+        direction = 1 if np.abs(ang(self.v, unit(self.th))) < np.pi/2 else -1
+        return self.velmod * direction
 
     def setSpin(self, dir=1, timeOut=0.25):
         if self.spin != 0:

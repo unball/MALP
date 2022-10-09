@@ -51,7 +51,7 @@ class Attacker(Entity):
         
         self.lastChat = 0
 
-        self._control = UFC_Simple(self.world, enableInjection=True)
+        self._control = UFC_Simple(self.world, enableInjection=False)
     @property
     def control(self):
         return self._control

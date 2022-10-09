@@ -1,3 +1,4 @@
+from distutils.util import execute
 from client.referee import RefereeCommands, RefereePlacement
 from client.gui import clientProvider
 from strategy import MainStrategy
@@ -16,7 +17,7 @@ from client.client_pickle import ClientPickle
 class Loop:
     def __init__(
         self, 
-        loop_freq=60, 
+        loop_freq=90, 
         draw_uvf=False, 
         team_yellow=True, 
         team_side=1, 
@@ -43,6 +44,7 @@ class Loop:
         self.pclient = ClientPickle(port)
         self.radio = SerialRadio()
         self.execute = False
+        self.t0 = time.time()
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -54,6 +56,10 @@ class Loop:
 
     def loop(self):
         if self.world.updateCount == self.lastupdatecount: return
+        
+        print((time.time()-self.t0)*1000)
+        self.t0 = time.time()
+        
         self.lastupdatecount = self.world.updateCount
 
         # Executa estratégia
@@ -74,7 +80,10 @@ class Loop:
 
     def busyLoop(self):
         message = self.pclient.receive()
-        self.execute = message['Execute']
+        self.execute = message[23]
+        print('-'*30)
+        print('Execute: ',self.execute)
+        print('-'*30)
         if message is not None: self.world.update(message)
         
         # command = self.rc.receive()
