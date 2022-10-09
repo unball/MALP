@@ -10,8 +10,8 @@ class Control(ABC):
         ABC.__init__(self)
 
         self.world = world
-        self.motor_vr_control = MotorControl(0.5, 0.05)
-        self.motor_vl_control = MotorControl(0.5, 0.05)
+        self.motor_vr_control = MotorControl(0.18, 0.1)
+        self.motor_vl_control = MotorControl(0.18, 0.1)
 
         self.last_w = 0
 

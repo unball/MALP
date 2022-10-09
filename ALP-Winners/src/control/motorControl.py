@@ -18,7 +18,7 @@ class MotorControl:
         self.int = sat(self.int + err * dt, 64)
         out = ref + self.kp * err + self.ki * self.int
         
-        return int(deadzone(sat(out, 127), 30, -30))
+        return int(2*deadzone(sat(out, 255), 30, -30))
 
     # def actuate(self, err):
     #     ki = self.ki
