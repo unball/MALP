@@ -71,6 +71,7 @@ class World:
             yellow = self.enemies
             blue = self.team
 
+<<<<<<< HEAD
         for robot_id in range(message[4]):
             # print('-'*20)
             # print('Robot ',robot_id, robot)
@@ -80,6 +81,26 @@ class World:
             else:
                 blue[robot_id].update(message[5+6*robot_id], message[6+6*robot_id], message[7+6*robot_id], message[8+6*robot_id], message[9+6*robot_id], message[10+6*robot_id])
 
+=======
+        robot_id = 0
+<<<<<<< HEAD
+        for robot in range(message[4]):
+            if self.team_yellow: 
+                yellow[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
+            else:
+                blue[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
+=======
+        for i in range(message[4]):
+            # print('-'*20)
+            # print('Robot ',robot_id, robot)
+            # print(f'update team[{robot_id}]')
+            if self.team_yellow: 
+                yellow[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
+            else:
+                blue[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
+>>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
+            robot_id+=1
+>>>>>>> 66fd13e7271bf1e4a4da9cff768f0c5380b8f12b
         # for robot, pos in zip(self.team, teamPos): robot.update(*pos)
         # for robot, pos in zip(self.enemies, enemiesPos): robot.update(*pos)
         #self.ball.update(message["ball_x"], message["ball_y"], message["ball_vx"], message["ball_vy"])
