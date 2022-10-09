@@ -43,7 +43,11 @@ class Loop:
         self.lastupdatecount = 0
         self.pclient = ClientPickle(port)
         self.radio = SerialRadio()
+<<<<<<< HEAD
         self.execute = False
+=======
+        
+>>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
         self.t0 = time.time()
 
         # Interface gráfica para mostrar campos

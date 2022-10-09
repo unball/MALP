@@ -60,8 +60,11 @@ class Vision(ABC):
       message.append(self._world.robots[i].inst_vy)
       message.append(self._world.robots[i].inst_w)
     
+<<<<<<< HEAD
     message.append(self._world.running)
     
+=======
+>>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
     # message = {
     #     'a': [self._world.ball.pos[0],
     #           self._world.ball.pos[1],
