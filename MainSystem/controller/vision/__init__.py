@@ -53,12 +53,12 @@ class Vision(ABC):
     message.append(self._world.n_robots)
     
     for i in range(self._world.n_robots):
-      message.append(self._world.robots[i].pose[0])
-      message.append(self._world.robots[i].pose[1])
-      message.append(self._world.robots[i].pose[2])
-      message.append(self._world.robots[i].vel[0])
-      message.append(self._world.robots[i].vel[1])
-      message.append(self._world.robots[i].w)
+      message.append(self._world.robots[i].inst_x)
+      message.append(self._world.robots[i].inst_y)
+      message.append(self._world.robots[i].raw_th)
+      message.append(self._world.robots[i].inst_vx)
+      message.append(self._world.robots[i].inst_vy)
+      message.append(self._world.robots[i].inst_w)
     
     # message = {
     #     'a': [self._world.ball.pos[0],

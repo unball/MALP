@@ -10,8 +10,8 @@ class Control(ABC):
         ABC.__init__(self)
 
         self.world = world
-        self.motor_vr_control = MotorControl(0.5, 0.1)
-        self.motor_vl_control = MotorControl(0.5, 0.1)
+        self.motor_vr_control = MotorControl(0.5, 0.05)
+        self.motor_vl_control = MotorControl(0.5, 0.05)
 
         self.last_w = 0
 
@@ -29,19 +29,11 @@ class Control(ABC):
         robot.lastControlLinVel = v
         
         vr, vl = speeds2motors(v, w)
-        
-        vr = 3*int(sat(vr * 127 / 110, 127))
-        vl = 3*int(sat(vl * 127 / 110, 127))
-        
-        return vr, vl
-
         vision_w = self.last_w + sat(robot.angvel-self.last_w, 0.1)
-
-        vr, vl = speeds2motors(v, w)
         vision_vr, vision_vl = speeds2motors(robot.v_signed, vision_w)
 
-        ur = self.motor_vr_control.actuate(vr - vision_vr)
-        ul = self.motor_vl_control.actuate(vl - vision_vl)
+        ur = self.motor_vr_control.actuate(vr, vr - vision_vr)
+        ul = self.motor_vl_control.actuate(vl, vl - vision_vl)
 
         if robot.id == 0:
             # print(

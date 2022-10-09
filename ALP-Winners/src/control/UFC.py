@@ -26,7 +26,7 @@ class UFC_Simple(Control):
     self.vmax = vmax
     self.L = L
     self.kv = 10
-    self.vbias = 0.4
+    self.vbias = 0.2
 
     self.sd_min = 1e-4
     self.sd_max = 0.5

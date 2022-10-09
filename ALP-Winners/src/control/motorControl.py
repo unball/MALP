@@ -11,12 +11,12 @@ class MotorControl:
         self.int = 0
         self.last_time = -1
         
-    def actuate(self, err):
+    def actuate(self, ref, err):
         now = time.time()
         dt = now - self.last_time if self.last_time > 0 else 0.040
         
         self.int = sat(self.int + err * dt, 64)
-        out = self.kp * err + self.ki * self.int
+        out = ref + self.kp * err + self.ki * self.int
         
         return int(deadzone(sat(out, 127), 30, -30))
 
