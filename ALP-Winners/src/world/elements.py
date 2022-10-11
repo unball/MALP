@@ -123,7 +123,7 @@ class TeamRobot(Robot):
         self.field = field
 
     def stop(self):
-        self.world.vss.command.write(self.id, 0, 0)
+        self.radio.send([(0,0) for robot in self.world.team])
 
     def updateEntity(self, entityClass, forced_update=False, **kwargs):
         newEntity = entityClass(self.world, self, **kwargs)
@@ -195,25 +195,19 @@ class TeamRobot(Robot):
     
     def isAlive(self):
         """Verifica se o robô está vivo baseado na relação entre a velocidade enviada pelo controle e a velocidade medida pela visão"""
-        # if time.time() - self.forcedAliveTime < self.forcedAliveTimeTimeOut:
-        #     return True
-
         if not self.on:
             self.timeLastResponse = time.time()
             return True
 
         ctrlVel = np.abs(self.lastControlLinVel)
         
-        if ctrlVel < 0.01 or self.spin != 0:
+        if ctrlVel < 0.01 or self.spin != 0: # or not self.world.running:
             self.timeLastResponse = time.time()
             return True
         
         if self.velmod / ctrlVel < 0.1:
-            if self.timeLastResponse is not None:
-                dt = time.time() - self.timeLastResponse
-                if dt is not None and dt > 0.33:
-                    # self.keepAlive(3)
-                    return False
+            if self.timeLastResponse is not None and time.time()-self.timeLastResponse > 0.33:
+                return False
         else:
             self.timeLastResponse = time.time()
         
