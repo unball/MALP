@@ -67,7 +67,6 @@ class Loop:
         self.strategy.update()
 
         # Executa o controle
-        
         control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
         
         if self.execute:
@@ -76,7 +75,7 @@ class Loop:
             self.radio.send([(0,0) for robot in self.world.team])
 
         # Desenha no ALP-GUI
-        # self.draw()
+        self.draw()
 
     def busyLoop(self):
         message = self.pclient.receive()
