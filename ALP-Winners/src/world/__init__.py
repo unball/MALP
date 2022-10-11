@@ -54,15 +54,12 @@ class World:
         self.field = Field(side)
         self.vss = vss
         self.team_yellow = team_yellow
-
         self.allyGoals = 0
         self.enemyGoals = 0
         self.updateCount = 0
+        self.newButton = False
 
     def update(self, message):
-        # teamPos = zip(message["ally_x"], message["ally_y"], message["ally_th"], message["ally_vx"], message["ally_vy"], message["ally_w"])
-        # enemiesPos = zip(message["enemy_x"], message["enemy_y"], message["enemy_th"], message["enemy_vx"], message["enemy_vy"], message["enemy_w"])
-
         if self.team_yellow: 
             yellow = self.team
             blue = self.enemies
@@ -71,28 +68,15 @@ class World:
             blue = self.team
 
         robot_id = 0
-<<<<<<< HEAD
         for robot in range(message[4]):
             if self.team_yellow: 
                 yellow[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
             else:
                 blue[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
-=======
-        for i in range(message[4]):
-            # print('-'*20)
-            # print('Robot ',robot_id, robot)
-            # print(f'update team[{robot_id}]')
-            if self.team_yellow: 
-                yellow[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
-            else:
-                blue[robot_id].update(message[5+6*i], message[6+6*i], message[7+6*i], message[8+6*i], message[9+6*i], message[10+6*i])
->>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
             robot_id+=1
-        # for robot, pos in zip(self.team, teamPos): robot.update(*pos)
-        # for robot, pos in zip(self.enemies, enemiesPos): robot.update(*pos)
-        #self.ball.update(message["ball_x"], message["ball_y"], message["ball_vx"], message["ball_vy"])
+       
         self.ball.update(message[0], message[1], message[2], message[3])
-        # print(f'\nBall: x = {self.ball.pos[0]}, y = {self.ball.pos[1]}, vx = {self.ball.v[0]}, vy = {self.ball.v[1]}')
+        self.newButton = message[24]
 
         self.updateCount += 1
 

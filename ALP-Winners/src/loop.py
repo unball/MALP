@@ -1,4 +1,3 @@
-from distutils.util import execute
 from client.referee import RefereeCommands, RefereePlacement
 from client.gui import clientProvider
 from strategy import MainStrategy
@@ -43,11 +42,7 @@ class Loop:
         self.lastupdatecount = 0
         self.pclient = ClientPickle(port)
         self.radio = SerialRadio()
-<<<<<<< HEAD
         self.execute = False
-=======
-        
->>>>>>> 2f438e0dbc816fc6407a8b50e8e3408b9d5a2670
         self.t0 = time.time()
 
         # Interface gráfica para mostrar campos
@@ -86,7 +81,7 @@ class Loop:
         message = self.pclient.receive()
         self.execute = message[23]
         print('-'*30)
-        print('Execute: ',self.execute)
+        print('newButton: ', self.world.newButton)
         print('-'*30)
         if message is not None: self.world.update(message)
         
