@@ -80,9 +80,6 @@ class Loop:
     def busyLoop(self):
         message = self.pclient.receive()
         self.execute = message[23]
-        print('-'*30)
-        print('newButton: ', self.world.newButton)
-        print('-'*30)
         if message is not None: self.world.update(message)
         
         # command = self.rc.receive()
