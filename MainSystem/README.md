@@ -6,7 +6,7 @@ Para executar esse programa é necessário ter instalado o interpretador `python
 
 ### Execução
 Execute o comando
-`./main.py --port 5001`
+`./main.py --port 5001 --nrobots 3`
 
 ### Documentação
 A documentação pode ser gerada com o comando:
