@@ -66,7 +66,7 @@ class Loop:
 
         # Executa o controle
         control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
-        
+        print(self.world.checkBatteries)
         if self.execute:
             self.radio.send(control_output)
         else:

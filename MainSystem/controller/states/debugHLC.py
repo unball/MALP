@@ -162,11 +162,11 @@ class DebugHLC(ParamsPattern, State):
     dt = time.time()-self.t
     self.t = time.time()
     
-    #Atualiza o mundo com a nova funcionalidade de enableManualControl
+    #Atualiza o mundo com a nova funcionalidade de enableManualControl, checar baterias
     if self.getParam("enableManualControl"):
-      self.world.newButton = True
+      self.world.checkBatteries = True
     else:
-      self.world.newButton = False
+      self.world.checkBatteries = False
 
     # Atualiza o mundo com a visão
     if self.getParam("runVision"):

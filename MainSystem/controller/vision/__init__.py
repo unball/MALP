@@ -61,7 +61,7 @@ class Vision(ABC):
       message.append(self._world.robots[i].inst_w)
     
     message.append(self._world.running)
-    message.append(self._world.newButton)
+    message.append(self._world.checkBatteries)
 
     self.server_pickle.send(message)
 
