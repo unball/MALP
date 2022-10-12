@@ -61,45 +61,7 @@ class Vision(ABC):
       message.append(self._world.robots[i].inst_w)
     
     message.append(self._world.running)
-    
-
-    # message = {
-    #     'a': [self._world.ball.pos[0],
-    #           self._world.ball.pos[1],
-    #           self._world.ball.vel[0],
-    #           self._world.ball.vel[1], [
-    #         [
-    #           self._world.robots[i].pose[0],
-    #           self._world.robots[i].pose[1],
-    #           self._world.robots[i].pose[2],
-    #           self._world.robots[i].vel[0],
-    #           self._world.robots[i].vel[1],
-    #           self._world.robots[i].w
-    #           ]
-    #         for i in range(self._world.n_robots)
-    #     ]]
-    #     # 'Ball':{
-    #     #   'x': self._world.ball.pos[0],
-    #     #   'y': self._world.ball.pos[1],
-    #     #   'vx': self._world.ball.vel[0],
-    #     #   'vy': self._world.ball.vel[1]
-    #     # },
-    #     # 'Robots': [
-    #     #   {
-    #     #     'x': self._world.robots[i].pose[0],
-    #     #     'y': self._world.robots[i].pose[1],
-    #     #     'orientation': self._world.robots[i].pose[2],
-    #     #     'vx': self._world.robots[i].vel[0],
-    #     #     'vy': self._world.robots[i].vel[1],
-    #     #     'vangular': self._world.robots[i].w
-    #     #   }
-    #     #   for i in range(self._world.n_robots)
-    #     # ]
-    # }
-    # print('-'*20)
-    # print('Robots:')
-    # for robot in message['Robots']:
-    #   print(type(robot), robot)
+    message.append(self._world.newButton)
 
     self.server_pickle.send(message)
 

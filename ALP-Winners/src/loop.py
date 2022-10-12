@@ -1,4 +1,3 @@
-from distutils.util import execute
 from client.referee import RefereeCommands, RefereePlacement
 from client.gui import clientProvider
 from strategy import MainStrategy
@@ -44,7 +43,6 @@ class Loop:
         self.pclient = ClientPickle(port)
         self.radio = SerialRadio()
         self.execute = False
-
         self.t0 = time.time()
 
         # Interface gráfica para mostrar campos
@@ -79,7 +77,7 @@ class Loop:
 
     def busyLoop(self):
         message = self.pclient.receive()
-        self.execute = message[len(message)-1]
+        self.execute = message[23]
         if message is not None: self.world.update(message)
         
         # command = self.rc.receive()
