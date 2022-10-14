@@ -65,8 +65,16 @@ class Loop:
         self.strategy.update()
 
         # Executa o controle
-        control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
-        print(self.world.checkBatteries)
+        # control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
+        control_output = []
+
+        for robot in self.world.team:
+            if robot.entity is not None:
+                if(robot.entity.__class__.__name__ == "GoalKeeper"):
+                    control_output.append(robot.entity.control.actuateNoControl(robot))
+                else:
+                    control_output.append(robot.entity.control.actuate(robot))
+
         if self.execute:
             self.radio.send(control_output)
         else:
