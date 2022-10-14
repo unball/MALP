@@ -155,7 +155,7 @@ class MainStrategy(Strategy):
                 hasMaster = True
             
             if Attacker in formation:
-                self.world.team[toDecide[0]].updateEntity(Attacker, ballShift=0.15 if hasMaster else 0, slave=True)
+                self.world.team[toDecide[0]].updateEntity(Attacker, ballShift=0.3 if hasMaster else 0, slave=True)
                 toDecide.remove(toDecide[0])
                 formation.remove(Attacker)
 
