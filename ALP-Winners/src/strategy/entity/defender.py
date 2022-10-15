@@ -52,22 +52,27 @@ class Defender(Entity):
         self.robot.vref = 0
 
         if norm(rr, rg) < norm(rb, rg):
-            self.robot.setSpin(spinGoalKeeper(rb, rr, rg), timeOut = 0.13)
+            self.robot.setSpin(spinGoalKeeper(rb, rr, rg), timeOut = 0.1)
 
         if np.sign(rb[1]) > 0 and rb[1] > rr[1] and rb[0] < -0.60 and rr[1] > 0.25 and np.abs(rr[0]-rb[0]) < 0.07:
             pose = (rr[0], rb[1], np.pi/2)
             self.robot.field = GoalKeeperField(pose, rb[0])
             self.robot.vref = 999
+            # print('primeiro modo')
         elif np.sign(rb[1]) < 0 and rb[1] < rr[1] and rb[0] < -0.60 and rr[1] < -0.25 and np.abs(rr[0]-rb[0]) < 0.07:
             pose = (rr[0], rb[1], -np.pi/2)
             self.robot.field = GoalKeeperField(pose, rb[0])
             self.robot.vref = 999
+            # print('segundo modo')
+
         else:
+            # print('****************************Modo blockBallElipse*************************')
             pose, spin = blockBallElipse(rb, vb, rr, self.world.field.areaEllipseCenter, *self.world.field.areaEllipseSize)
             self.robot.setSpin(spin)
 
             self.robot.vref = 0
             self.robot.field = DefenderField(pose, *self.world.field.areaEllipseSize, self.world.field.areaEllipseCenter)
+            
 
         rm = self.world.field.areaEllipseCenter
         clientProvider().drawEllipse(self.robot.id, rm[0], rm[1], *self.world.field.areaEllipseSize, -np.pi/2, np.pi/2, None, False)
