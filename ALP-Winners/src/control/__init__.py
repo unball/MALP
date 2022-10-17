@@ -10,8 +10,8 @@ class Control(ABC):
         ABC.__init__(self)
 
         self.world = world
-        self.motor_vr_control = MotorControl(0.18, 0.1)
-        self.motor_vl_control = MotorControl(0.18, 0.1)
+        self.motor_vr_control = MotorControl(4, 0.18, 0.1, 30)
+        self.motor_vl_control = MotorControl(4, 0.18, 0.1, 30)
 
         self.last_w = 0
 
@@ -36,6 +36,7 @@ class Control(ABC):
         return vr, vl
 
     def actuate(self, robot):
+        return (100,100)
         if not robot.on:
             return (0, 0)
 

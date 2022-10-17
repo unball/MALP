@@ -136,19 +136,6 @@ class TeamRobot(Robot):
         if self.entity is None: return False
         else: return self.entity.isLocked()
 
-    # def setSpin(self, dir=1, timeout=0.25):
-    #     if dir != 0: 
-    #         # Atualiza a direção do spin
-    #         self.spin = dir
-
-    #         # Atualiza o tempo de início do spin, se for um spin
-    #         self.spinTime = time.time()
-
-    #         # Diz o tempo de duração do spin
-    #         self.spinTimeOut = timeout
-    #     else:
-    #         self.spin = 0
-
     @property
     def thvec(self):
         return [th + (np.pi if self.direction == -1 else 0) for th in self.thvec_raw.vec]
@@ -198,6 +185,7 @@ class TeamRobot(Robot):
         if not self.on:
             self.timeLastResponse = time.time()
             return True
+            return True
 
         ctrlVel = np.abs(self.lastControlLinVel)
         
@@ -207,6 +195,9 @@ class TeamRobot(Robot):
         
         if self.velmod / ctrlVel < 0.1:
             if self.timeLastResponse is not None and time.time()-self.timeLastResponse > 0.33:
+                # if self.timeLastResponse is not None and time.time()-self.timeLastResponse > 10:
+                #     print("***************DESLIGOU*****************")
+                #     self.turnOff()
                 return False
         else:
             self.timeLastResponse = time.time()
@@ -221,3 +212,16 @@ class TeamRobot(Robot):
 class Ball(Element):
     def __init__(self, world):
         super().__init__(world)
+
+    # def setSpin(self, dir=1, timeout=0.25):
+    #     if dir != 0: 
+    #         # Atualiza a direção do spin
+    #         self.spin = dir
+
+    #         # Atualiza o tempo de início do spin, se for um spin
+    #         self.spinTime = time.time()
+
+    #         # Diz o tempo de duração do spin
+    #         self.spinTimeOut = timeout
+    #     else:
+    #         self.spin = 0

@@ -128,7 +128,7 @@ class Attacker(Entity):
                 self.attackAngle = ang(rr, rg)
                 self.elapsed = time.time()
 
-                clientProvider().drawLine(self.robot.id, rr[0], rr[1], rg[0], rg[1])
+            #    clientProvider().drawLine(self.robot.id, rr[0], rr[1], rg[0], rg[1])
             # elif self.alignedToBall2(rb, rr):
             #     self.attackState = 2
             #     self.attackAngle =  self.robot.th if np.dot(unit(self.robot.th), rb- rr[:2]) > 0 else self.robot.th+np.pi #ang(rr, rb) # preciso melhorado

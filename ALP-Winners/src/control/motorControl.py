@@ -2,9 +2,11 @@ import time
 from tools import sat, deadzone
 
 class MotorControl:
-    def __init__(self, kp, ki):
+    def __init__(self, refk, kp, ki, deadzone):
         self.kp = kp
         self.ki = ki
+        self.refk = refk
+        self.deadzone = deadzone
         self.old_err = 0
         self.old_out = 0
         
@@ -16,9 +18,9 @@ class MotorControl:
         dt = now - self.last_time if self.last_time > 0 else 0.040
         
         self.int = sat(self.int + err * dt, 64)
-        out = ref + self.kp * err + self.ki * self.int
+        out = self.refk * ref + self.kp * err + self.ki * self.int
         
-        return int(2*deadzone(sat(out, 255), 30, -30))
+        return int(deadzone(sat(out, 255), self.deadzone, -self.deadzone))
 
     # def actuate(self, err):
     #     ki = self.ki
