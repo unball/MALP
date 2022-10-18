@@ -3,7 +3,7 @@ from strategy.field.UVF import UVF
 from strategy.field.DirectionalField import DirectionalField
 from strategy.field.goalKeeper import GoalKeeperField
 from strategy.field.ellipse import DefenderField
-from strategy.movements import goalkeep, blockBallElipse, spinGoalKeeper
+from strategy.movements import goalkeep, blockBallElipse, spinDefender, spinGoalKeeper
 from tools import angError, howFrontBall, howPerpBall, ang, norml, norm
 from tools.interval import Interval
 from control.UFC import UFC_Simple
@@ -52,21 +52,21 @@ class Defender(Entity):
         self.robot.vref = 0
 
         if norm(rr, rg) < norm(rb, rg):
-            self.robot.setSpin(spinGoalKeeper(rb, rr, rg), timeOut = 0.1)
+            self.robot.setSpin(spinDefender(rb, rr, rg), timeOut = 0.1)
 
         if np.sign(rb[1]) > 0 and rb[1] > rr[1] and rb[0] < -0.60 and rr[1] > 0.25 and np.abs(rr[0]-rb[0]) < 0.07:
             pose = (rr[0], rb[1], np.pi/2)
             self.robot.field = GoalKeeperField(pose, rb[0])
             self.robot.vref = 999
-            # print('primeiro modo')
+            print('primeiro modo')
         elif np.sign(rb[1]) < 0 and rb[1] < rr[1] and rb[0] < -0.60 and rr[1] < -0.25 and np.abs(rr[0]-rb[0]) < 0.07:
             pose = (rr[0], rb[1], -np.pi/2)
             self.robot.field = GoalKeeperField(pose, rb[0])
             self.robot.vref = 999
-            # print('segundo modo')
+            print('segundo modo')
 
         else:
-            # print('****************************Modo blockBallElipse*************************')
+            print('*Modo blockBallElipse*')
             pose, spin = blockBallElipse(rb, vb, rr, self.world.field.areaEllipseCenter, *self.world.field.areaEllipseSize)
             self.robot.setSpin(spin)
 

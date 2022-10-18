@@ -10,8 +10,8 @@ class Control(ABC):
         ABC.__init__(self)
 
         self.world = world
-        self.motor_vr_control = MotorControl(4, 0.18, 0.1, 30)
-        self.motor_vl_control = MotorControl(4, 0.18, 0.1, 30)
+        self.motor_vr_control = MotorControl(3, 0.2 , 0.05, 32)
+        self.motor_vl_control = MotorControl(3, 0.2, 0.05, 32)
 
         self.last_w = 0
 
@@ -36,7 +36,6 @@ class Control(ABC):
         return vr, vl
 
     def actuate(self, robot):
-        return (100,100)
         if not robot.on:
             return (0, 0)
 
@@ -53,14 +52,15 @@ class Control(ABC):
         ul = self.motor_vl_control.actuate(vl, vl - vision_vl)
 
         if robot.id == 0:
+            pass
             # print(
             #     f"ur: {ur}\ter: {vr - vision_vr}, vr: {vr}, vision_vr: {vision_vr}")
             # print(
             #     f"ul: {ul}\tel: {vl - vision_vl}, vl: {vl}, vision_vl: {vision_vl}")
-            print(
-                f"ur: {ur}\tev: {v - robot.v_signed}, v: {v}, vision_v: {robot.v_signed}")
-            print(
-                f"ul: {ul}\tew: {w - vision_w}, w: {w}, vision_w: {vision_w}")
+            # print(
+            #     f"ur: {ur}\tev: {v - robot.v_signed}, v: {v}, vision_v: {robot.v_signed}")
+            # print(
+            #     f"ul: {ul}\tew: {w - vision_w}, w: {w}, vision_w: {vision_w}")
 
         # vr, vl = speeds2motors(uv, uw)
 

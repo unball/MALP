@@ -39,6 +39,11 @@ def goToBall(rb, vb, rg, rr, rl, vravg, offset=0.015):
 
     return np.array([*target[:2], angle])
 
+# def goToBallTimed(rb, vb, rg, rr, rl, vravg, timeout = 5, offset=0.015):
+    
+#     if (bola nao mexeu em timeout segundos):
+#             goToBall(rb, vb, rg, rr, rl, vravg, offset)
+
 def avoidObstacle(rt, rr, rl, rps):
     obstacles = []
     
@@ -133,8 +138,7 @@ def spinGoalKeeper(rb, rr, rm):
     return spin
 
 def spinDefender(rb, rr, rm):
-    # print(f"norm:{norm(rr, rb)}" )
-    if norm(rr, rb) < 0.1:
+    if norm(rb, rm) > norm(rr, rm) and norm(rr, rb) < 0.08:
         spin = 1 if rr[1] > rb[1] else -1
     else:
         spin = 0

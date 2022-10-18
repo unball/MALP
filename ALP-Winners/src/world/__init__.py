@@ -11,7 +11,7 @@ class Field:
         self.ymargin = 0.18
         self.side = side
 
-        self.areaEllipseSize = (0.35, 0.50)
+        self.areaEllipseSize = (0.35, 0.52)
         self.areaEllipseCenter = (-self.maxX + 0.10, 0)
 
     @property

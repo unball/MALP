@@ -101,10 +101,11 @@ class MainStrategy(Strategy):
         return [0,1,2]
 
     def decideBestGoalKeeper(self, formation, toDecide):
-        nearest = self.nearestGoal(toDecide)
-        self.world.team[nearest].updateEntity(GoalKeeper)
+        # nearest = self.nearestGoal(toDecide)
+        # self.world.team[nearest].updateEntity(GoalKeeper)
+        self.world.team[1].updateEntity(GoalKeeper)
         
-        toDecide.remove(nearest)
+        toDecide.remove(1)
         formation.remove(GoalKeeper)
         
         return formation, toDecide
@@ -135,9 +136,9 @@ class MainStrategy(Strategy):
 
     def update(self):
         if self.static_entities:
-            self.world.team[0].updateEntity(Attacker)
-            self.world.team[1].updateEntity(Defender)
-            self.world.team[2].updateEntity(GoalKeeper)
+            self.world.team[2].updateEntity(Attacker)
+            self.world.team[1].updateEntity(Attacker)
+            self.world.team[0].updateEntity(GoalKeeper)
 
         else:
             formation = self.formationDecider()
@@ -155,7 +156,7 @@ class MainStrategy(Strategy):
                 hasMaster = True
             
             if Attacker in formation:
-                self.world.team[toDecide[0]].updateEntity(Attacker, ballShift=0.3 if hasMaster else 0, slave=True)
+                self.world.team[toDecide[0]].updateEntity(Attacker, ballShift=0.20 if hasMaster else 0, slave=True)
                 toDecide.remove(toDecide[0])
                 formation.remove(Attacker)
 

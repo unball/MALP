@@ -138,6 +138,7 @@ class TeamRobot(Robot):
 
     @property
     def thvec(self):
+        # return [th+np.pi for th in self.thvec_raw.vec]
         return [th + (np.pi if self.direction == -1 else 0) for th in self.thvec_raw.vec]
 
     @property
@@ -146,6 +147,7 @@ class TeamRobot(Robot):
 
     @property
     def th(self):
+        # return self.th_raw
         return self.th_raw if self.world.field.side == 1 else adjustAngle(np.pi - self.th_raw)
 
     @property
@@ -194,7 +196,7 @@ class TeamRobot(Robot):
             return True
         
         if self.velmod / ctrlVel < 0.1:
-            if self.timeLastResponse is not None and time.time()-self.timeLastResponse > 0.33:
+            if self.timeLastResponse is not None and time.time()-self.timeLastResponse > 0.4:
                 # if self.timeLastResponse is not None and time.time()-self.timeLastResponse > 10:
                 #     print("***************DESLIGOU*****************")
                 #     self.turnOff()
