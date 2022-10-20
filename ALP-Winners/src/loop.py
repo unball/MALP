@@ -91,9 +91,6 @@ class Loop:
         else:
             self.radio.send([(0,0) for robot in self.world.team])
             for robot in self.world.raw_team: robot.turnOff()
-                    
-        
-        print('direção:' , self.world.team[0].direction)
 
         # Desenha no ALP-GUI
         self.draw()
