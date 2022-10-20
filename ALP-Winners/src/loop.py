@@ -23,7 +23,7 @@ class Loop:
         immediate_start=False, 
         static_entities=False,
         port=5001,
-        n_robots=5
+        n_robots=3,
     ):
         # Instancia interface com o simulador
         #self.vss = VSS(team_yellow=team_yellow)
@@ -51,6 +51,8 @@ class Loop:
             self.UVF_screen = UVFScreen(self.world, index_uvf_robot=1)
             self.UVF_screen.initialiazeScreen()
             self.UVF_screen.initialiazeObjects()
+        
+                   
         
 
     def loop(self):
@@ -82,11 +84,16 @@ class Loop:
                     control_output.append(robot.entity.control.actuate(robot))
 
         # print('controle:', control_output)
-
+        
         if self.execute:
+            for robot in self.world.raw_team: robot.turnOn()   
             self.radio.send(control_output)
         else:
             self.radio.send([(0,0) for robot in self.world.team])
+            for robot in self.world.raw_team: robot.turnOff()
+                    
+        
+        print('direção:' , self.world.team[0].direction)
 
         # Desenha no ALP-GUI
         self.draw()
@@ -103,8 +110,8 @@ class Loop:
         for robot in [r for r in self.world.team if r.entity is not None]:
             clientProvider().drawRobot(robot.id, robot.x, robot.y, robot.thvec_raw.vec[0], robot.direction)
 
-        for robot in self.world.enemies:
-            clientProvider().drawRobot(robot.id+3, robot.x, robot.y, robot.thvec_raw.vec[0], 1, (0.6, 0.6, 0.6))
+        # for robot in self.world.enemies:
+        #     clientProvider().drawRobot(robot.id+3, robot.x, robot.y, robot.thvec_raw.vec[0], 1, (0.6, 0.6, 0.6))
 
         clientProvider().drawBall(0, self.world.ball.x, self.world.ball.y)
 

@@ -93,7 +93,7 @@ def goalkeep(rb, vb, rr, rg):
 
     #Se não, acompanha o y
     #xGoal = rg[0] - 0.175 * (rb[0] < -0.6 and abs(rb[1]) < 0.35)
-    ytarget = sat(rb[1], 0.17 + 0.19 * (rb[0] < -0.6 and abs(rb[1]) < 0.35)) #(permite que o goleiro avance na área do gol)
+    ytarget = sat(rb[1], 0.14 + 0.21 * (rb[0] < -0.6 and abs(rb[1]) < 0.35)) #(permite que o goleiro avance na área do gol)
     #ytarget = sat(rb[1], 0.17) #(permite que o goleiro avance na área do gol)
     angle = np.pi/2 if rr[1] < ytarget else -np.pi/2
     return np.array([xGoal, ytarget, angle])
@@ -137,8 +137,13 @@ def spinGoalKeeper(rb, rr, rm):
 
     return spin
 
+def spinGetFreeGoalKeeper(rb, rr):
+    spin = 1 if rr[1] > rb[1] else -1
+    return spin
+
+
 def spinDefender(rb, rr, rm):
-    if norm(rb, rm) > norm(rr, rm) and norm(rr, rb) < 0.08:
+    if norm(rb, rm) > norm(rr, rm) and norm(rr, rb) < 0.05:
         spin = 1 if rr[1] > rb[1] else -1
     else:
         spin = 0

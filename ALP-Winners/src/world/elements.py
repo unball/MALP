@@ -187,7 +187,6 @@ class TeamRobot(Robot):
         if not self.on:
             self.timeLastResponse = time.time()
             return True
-            return True
 
         ctrlVel = np.abs(self.lastControlLinVel)
         

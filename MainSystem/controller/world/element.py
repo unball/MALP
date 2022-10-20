@@ -116,6 +116,7 @@ class Element(object):
   @property
   def th(self):
     """Retorna o ângulo do objeto"""
+    return self.inst_th
     thVec = unit(self.inst_th)
     return angl((thVec[0] * self.world.fieldSide, thVec[1])) #+ self.timeStep * self.w * self.world.dt
 
@@ -181,6 +182,7 @@ class Element(object):
   @property
   def w(self):
     """Retorna a velocidade angular do objeto"""
+    return self.inst_w
     return self.inst_w * self.world.fieldSide
 
   @property

@@ -20,12 +20,15 @@ class MotorControl:
         self.int = sat(self.int + err * dt, 64)
         out = self.refk * ref + self.kp * err + self.ki * self.int
         
+        
         return int(deadzone(sat(out, 255), self.deadzone, -self.deadzone))
 
-    # def actuate(self, err):
+    # def actuate(self, ref, err):
     #     ki = self.ki
     #     kp = self.kp
-    #     T = 0.040
+    #     T = 0.04
+    #     # now = time.time()
+    #     # T = now - self.last_time if self.last_time > 0 else 0.040
         
     #     c0 = -kp + T/2 * ki
     #     c1 = kp + T/2 * ki
@@ -35,7 +38,7 @@ class MotorControl:
     #     self.old_err = err
     #     self.old_out = out if abs(out) <= 127 else 0
 
-    #     return out
+    #     return int(deadzone(sat(out, 255), self.deadzone, -self.deadzone))
 
     #     double PImotorA(double err){
     #     static double old_err;

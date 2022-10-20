@@ -12,6 +12,8 @@ class Control(ABC):
         self.world = world
         self.motor_vr_control = MotorControl(3, 0.2 , 0.05, 32)
         self.motor_vl_control = MotorControl(3, 0.2, 0.05, 32)
+        # self.motor_vr_control = MotorControl(1, 1, 3, 32)
+        # self.motor_vl_control = MotorControl(1, 1, 3, 32)
 
         self.last_w = 0
 

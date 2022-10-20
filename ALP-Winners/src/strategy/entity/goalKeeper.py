@@ -42,7 +42,7 @@ class GoalKeeper(Entity):
             rob_th = self.robot.th
             # print('Rob_th:', rob_th)
 
-            # if norm(self.robot.pos, self.world.ball.pos) < 0.03:
+            # if norm(self.robot.pos, self.world.ball.pos) < 0.02:
             #     self.robot.setSpin(np.sign(self.robot.y - self.world.ball.y), timeOut=0.1)
             # print('isAlive:')
             # print(self.robot.isAlive())
@@ -56,6 +56,7 @@ class GoalKeeper(Entity):
                 if time.time()-self.lastChat > .3:
                     self.lastChat = time.time()
                     self.robot.direction *= -1
+                    # self.robot.setSpin(np.sign(self.robot.y - self.world.ball.y), timeOut=0.1)
 
     def fieldDeciderMS(self):
         rr = np.array(self.robot.pos)
@@ -104,7 +105,7 @@ class GoalKeeper(Entity):
         # print(f"angulo: {thr}")
         if self.state == "Stable":
             # if np.abs(rr[0]-rg[0]) > 0.05 or (np.abs(thr-1.5) > 2 or np.abs(thr-4.7) > 2):
-            if np.abs(rr[0]-rg[0]) > 0.05:
+            if np.abs(rr[0]-rg[0]) > 0.07:
                 self.state = "Unstable"
         elif self.state == "Unstable":
             if rr[0] > 0:
