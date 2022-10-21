@@ -24,6 +24,7 @@ class Loop:
         static_entities=False,
         port=5001,
         n_robots=3,
+        lastActuated = 0
     ):
         # Instancia interface com o simulador
         #self.vss = VSS(team_yellow=team_yellow)
@@ -44,6 +45,7 @@ class Loop:
         self.radio = SerialRadio()
         self.execute = False
         self.t0 = time.time()
+        self.lastActuated = time.time()
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -61,6 +63,7 @@ class Loop:
         print((time.time()-self.t0)*1000)
         self.t0 = time.time()
         
+        # self.lastActuated = time.time() if self.lastAcuated == 0 else self.lastActuated
         self.lastupdatecount = self.world.updateCount
 
         # Executa estratégia
@@ -81,7 +84,9 @@ class Loop:
                 if(robot.entity.__class__.__name__ == "GoalKeeper" or robot.entity.__class__.__name__ == "Defender"):
                     control_output.append(robot.entity.control.actuateNoControl(robot))
                 else:
-                    control_output.append(robot.entity.control.actuate(robot))
+                    if time.time() - self.lastActuated > 0.03:
+                        control_output.append(robot.entity.control.actuate(robot))
+                        self.lastActuated = time.time()
 
         # print('controle:', control_output)
         

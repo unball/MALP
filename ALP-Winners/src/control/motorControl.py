@@ -23,22 +23,22 @@ class MotorControl:
         
         return int(deadzone(sat(out, 255), self.deadzone, -self.deadzone))
 
-    # def actuate(self, ref, err):
-    #     ki = self.ki
-    #     kp = self.kp
-    #     T = 0.04
-    #     # now = time.time()
-    #     # T = now - self.last_time if self.last_time > 0 else 0.040
+    def actuatePaper(self, ref, err):
+        ki = self.ki
+        kp = self.kp
+        T = 0.03
+        # now = time.time()
+        # T = now - self.last_time if self.last_time > 0 else 0.040
         
-    #     c0 = -kp + T/2 * ki
-    #     c1 = kp + T/2 * ki
-    #     A = 1 / T
+        c0 = -kp + T/2 * ki
+        c1 = kp + T/2 * ki
+        A = 1 / T
         
-    #     out = A * (c1 * err + c0 * self.old_err) + self.old_out
-    #     self.old_err = err
-    #     self.old_out = out if abs(out) <= 127 else 0
+        out = self.old_out + A * (c1 * err + c0 * self.old_err)
+        self.old_err = err
+        self.old_out = out if abs(out) <= 127 else 0
 
-    #     return int(deadzone(sat(out, 255), self.deadzone, -self.deadzone))
+        return int(deadzone(sat(out, 255), self.deadzone, -self.deadzone))
 
     #     double PImotorA(double err){
     #     static double old_err;
