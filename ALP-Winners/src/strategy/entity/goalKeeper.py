@@ -105,7 +105,11 @@ class GoalKeeper(Entity):
         # print(f"angulo: {thr}")
         if self.state == "Stable":
             # if np.abs(rr[0]-rg[0]) > 0.05 or (np.abs(thr-1.5) > 2 or np.abs(thr-4.7) > 2):
+<<<<<<< Updated upstream
             if np.abs(rr[0]-rg[0]) > 0.065 or not self.robot.isAlive():
+=======
+            if np.abs(rr[0]-rg[0]) > 0.04:
+>>>>>>> Stashed changes
                 self.state = "Unstable"
         elif self.state == "Unstable":
             if rr[0] > 0:
@@ -114,11 +118,15 @@ class GoalKeeper(Entity):
                 # SETAR INSTABILIDADE CASO O ROBO ESTEJA VIRADO E FRENTE PRO GOL
                 
             # elif (np.abs(rr[0]-rg[0]) < 0.05) and (np.abs(thr-1.5) < 2 or np.abs(thr-4.7) < 2):
+<<<<<<< Updated upstream
             elif (np.abs(rr[0]-rg[0]) < 0.05 and self.robot.isAlive()):
+=======
+            elif (np.abs(rr[0]-rg[0]) < 0.04):
+>>>>>>> Stashed changes
                 self.state = "Stable"
         else:
             # if (np.abs(rr[0]-rg[0]) < 0.05) and (np.abs(thr-1.5) < 2 or np.abs(thr-4.7) < 2):
-            if (np.abs(rr[0]-rg[0]) < 0.05):
+            if (np.abs(rr[0]-rg[0]) < 0.04):
                 self.state = "Stable"
                 self.setGoalKeeperControl()
 

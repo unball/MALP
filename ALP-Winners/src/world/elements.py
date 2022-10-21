@@ -1,6 +1,6 @@
 import time
 from tools.interval import Interval
-from tools import adjustAngle, norml, derivative, angularDerivative, unit, angl, ang
+from tools import adjustAngle, norml, derivative, angularDerivative, unit, angl, ang, insideRect
 from control.UFC import UFC_Simple
 import numpy as np
 import math
@@ -106,6 +106,8 @@ class TeamRobot(Robot):
         self.spinTimeOut = 0.05
         self.forcedAliveTime = 0
         self.forcedAliveTimeTimeOut = 0
+
+        self.movState = 0
 
     @property
     def on(self):
@@ -213,6 +215,10 @@ class TeamRobot(Robot):
 class Ball(Element):
     def __init__(self, world):
         super().__init__(world)
+
+    #MainSystem
+    def insideGoalArea(self):
+        return insideRect(self.pos, self.world.allyGoalPos, self.world.goalAreaSize)
 
     # def setSpin(self, dir=1, timeout=0.25):
     #     if dir != 0: 

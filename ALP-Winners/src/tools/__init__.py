@@ -92,6 +92,9 @@ def derivative(vs, dt, order=1):
     if order == 1: return (vs[0] - vs[1]) / dt
     elif order == 2: return (vs[0] - 2*vs[1] + vs[2]) / dt**2
 
+def insideRect(r, rm, s):
+  return np.all(r-rm < s)
+
 def angularDerivative(vs, dt, order=1):
     if order == 1: return adjustAngle(vs[0] - vs[1]) / dt
     elif order == 2: return adjustAngle(vs[0] - 2*vs[1] + vs[2]) / dt**2

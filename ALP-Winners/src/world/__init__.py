@@ -59,6 +59,8 @@ class World:
         self.enemyGoals = 0
         self.updateCount = 0
         self.checkBatteries = False
+        self.goalAreaSize = np.array([0.3, 0.4])
+        
 
     def update(self, message):
         if self.team_yellow: 
