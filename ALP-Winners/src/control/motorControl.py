@@ -12,8 +12,17 @@ class MotorControl:
         
         self.int = 0
         self.last_time = -1
+
+    def actuate(self, e, K, zero):
+        out = K * (e - zero * self.last_e) + self.last_out
         
-    def actuate(self, ref, err):
+
+        self.last_e = e
+        self.last_out = out if out <= 255 else 0  # anti-windup
+        return int(deadzone(sat(out, 255), self.deadzone, -self.deadzone))
+
+        
+    def actuateRefK(self, ref, err):
         now = time.time()
         dt = now - self.last_time if self.last_time > 0 else 0.040
         

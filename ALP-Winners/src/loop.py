@@ -84,7 +84,7 @@ class Loop:
                 if(robot.entity.__class__.__name__ == "GoalKeeper" or robot.entity.__class__.__name__ == "Defender"):
                     control_output.append(robot.entity.control.actuateNoControl(robot))
                 else:
-                    if time.time() - self.lastActuated > 0.03:
+                    if time.time() - self.lastActuated > 0.030:
                         control_output.append(robot.entity.control.actuate(robot))
                         self.lastActuated = time.time()
 

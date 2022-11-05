@@ -37,6 +37,48 @@ class Control(ABC):
         
         return vr, vl
 
+    def get_references(self, robot):
+        return robot.v_signed, self.last_w + sat(robot.angvel-self.last_w, 0.1)
+
+    def actuate(self, robot):
+        """Malha acoplada, controle para v e w"""
+        
+        v_ref, w_ref = self.get_references(robot)
+        v, w = self.output(robot)
+
+
+        e_ang = k_lin * (w_ref - w)
+        e_lin = k_ang * (v_ref - v)
+
+        e_left = e_lin - e_ang
+        e_right = e_lin + e_ang
+
+        # verificar sinais no matlab
+        return (self.motor_vr_control.actuate(e_right),
+                self.motor_vl_control.actuate(e_left))
+
+    def actuate_theta(self, robot):
+        """Controle para v e theta"""
+
+        v_ref, w_ref = self.get_references(robot)
+        v, w = self.output(robot)
+
+
+        # e_lin = k_ang * (v_ref - v)
+        e_ang = (theta_ref - theta) * (s + a) # domínio de laplace, ou seja, derivada do erro angular (theta_ref - theta) 
+        e_ang = k_lin * (w_ref - w)
+
+        e_left = e_lin - e_ang
+        e_right = e_lin + e_ang
+
+        # Identificaçao do motor (não tem que ser precisa):
+        #   Obter constante de tempo para chutar o zero
+
+        # verificar sinais corretos no matlab
+        return (self.motor_vr_control.actuate(e_right),
+                self.motor_vl_control.actuate(e_left))
+
+
     def actuate(self, robot):
         if not robot.on:
             return (0, 0)
