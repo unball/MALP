@@ -58,7 +58,9 @@ class World:
         self.allyGoals = 0
         self.enemyGoals = 0
         self.updateCount = 0
-        self.checkBatteries = False
+        self.enableManualControl = False
+        self.manualControlSpeedV = 0
+        self.manualControlSpeedW = 0
 
     def update(self, message):
         if self.team_yellow: 
@@ -77,7 +79,10 @@ class World:
             robot_id+=1
        
         self.ball.update(message[0], message[1], message[2], message[3])
-        self.checkBatteries = message[24]
+        self.enableManualControl = message[24]
+        self.manualControlSpeedV = message[25]
+        self.manualControlSpeedW = message[26]
+
 
         self.updateCount += 1
 

@@ -69,6 +69,7 @@ class Loop:
         # Executa o controle
         # control_output = [robot.entity.control.actuateNoControl(robot) for robot in self.world.team if robot.entity is not None]
         
+
         control_output = []
         for robot in self.world.team:
             # if robot.entity.__class__.__name__ == "GoalKeeper":
@@ -76,6 +77,11 @@ class Loop:
                 # print('vx_raw:', robot.vx_raw, '. vx:', self.world.field.side * robot.vx_raw)
                 # print('th_raw:', robot.th_raw, '. th:', self.world.field.side * robot.th_raw)
                 # print('w_raw:', robot.w_raw, '. w:', self.world.field.side * robot.w_raw)
+
+            if self.world.enableManualControl:
+                print("Controle manual")
+                print("V:", self.world.manualControlSpeedV)
+                print("W:", self.world.manualControlSpeedW)
 
             if robot.entity is not None:
                 if(robot.entity.__class__.__name__ == "GoalKeeper" or robot.entity.__class__.__name__ == "Defender"):
