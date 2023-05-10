@@ -190,6 +190,8 @@ class MainVision(Vision):
     else: return None
     
   def aplicarFiltrosMorfologicos(self, mask):
+    # TODO: checar função desses filtros
+
     """Aplica filtros morfológicos com o objetivo de retirar ruido a uma mascara"""
     kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (5,5))
     filtered = cv2.morphologyEx(mask, cv2.MORPH_OPEN, kernel)
@@ -224,7 +226,8 @@ class MainVision(Vision):
     center = rectangle[0]
     centerMeters = pixel2meters(self._world, center, component_mask.shape)
     angle = rectangle[-1]
-    
+
+    print('detectarCamisa', mainContours)
     return center, centerMeters, angle, mainContours
   
   def definePoly(self, countor):
@@ -274,6 +277,8 @@ class MainVision(Vision):
     candidato = (0 if poligono == 3 else 2) + countInternalContours -1
     if candidato >= self._world.n_robots: return None
     
+    print('detectarTime', 'count', countInternalContours, 'poli', poligono, 'cand', candidato)
+
     identificador = self.obterIdentificador(centerMeters, candidato)
 
     # Calcula o ângulo com base no vetor entre o centro do contorno principal e o centro da camisa
@@ -309,6 +314,8 @@ class MainVision(Vision):
 
     # Tenta identificar uma bola
     bola = self.identificarBola(bolaMask & fgMask)
+    # TODO: por que usar dois filtros?
+
     mensagem.setBall(bola)
     
     # O que não é fundo nem bola
@@ -329,9 +336,14 @@ class MainVision(Vision):
       if camisa is None: continue
       
       centro, centerMeters, angulo, camisaContours = camisa
+
+      #TODO: qual a diferença entre CENTRO e CENTERMETERS?
+      #TODO: o que é esse ângulo?
       
       # Máscara dos componentes internos do elemento
       componentTeamMask = componentMask & teamMask
+
+      #TODO: qual a diferença entre COMPONENTMASK e COMPONENTTEAMMASK?
       
       # Tenta identificar um aliado
       aliado = self.detectarTime(componentTeamMask, centro, angulo, centerMeters)
