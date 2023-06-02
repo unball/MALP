@@ -4,15 +4,26 @@ MALP é o sistema da equipe utilizado na LARC 2022 que realiza a integração en
 
 A visão do MainSystem se comunica com o ALP-Winners utilizando sockets. ALP-GUI é uma interface criada para auxiliar no desenvolvimento do ALP-Winners, para executar o MALP não é necessário executar ALP-GUI.
 
-# Como executar MALP
+## Como executar MALP
 
-1.  **Depois de instalar os requisitos do MainSystem no seu diretório**, executar no terminal, dentro do MainSystem:
+1. Instale as dependências necessárias para os dois sistemas utilizando o pip na pasta raiz
+```
+pip install -r requirements.txt
+```
 
-        ./main.py --port 5001 --n_robots 3
+2. Abrir dois terminais para execução simultânea do MainSystem e ALP-Winners
 
-2.  **Depois de instalar os requisitos do sistema ALP-Winners no seu diretório**, executar no terminal, dentro do ALP-Winners:
+3. No terminal 1, mover para o diretório MainSystem e executar com:
+```
+./main.py --port 5001 --n_robots 3
 
-        python3 src/main.py --team-color blue --team-side left --immediate-start --port 5001 --n_robots 3
+```
+
+4. No terminal 2, mover para o diretório ALP-Winners e executar com:
+```
+.python3 src/main.py --team-color blue --team-side left --immediate-start --port 5001 --n_robots 3
+
+```
 
 > ### Importante!!
 >
