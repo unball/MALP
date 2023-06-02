@@ -6,7 +6,7 @@ A visão do MainSystem se comunica com o ALP-Winners utilizando sockets. ALP-GUI
 
 # Como executar MALP
 
-1.  **Depois de instalar os requisitos do sistema ALP-Winners no seu diretório**, executar no terminal, dentro do MainSystem:
+1.  **Depois de instalar os requisitos do MainSystem no seu diretório**, executar no terminal, dentro do MainSystem:
 
         ./main.py --port 5001 --n_robots 3
 
