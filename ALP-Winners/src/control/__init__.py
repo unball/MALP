@@ -41,9 +41,11 @@ class Control(ABC):
         if not robot.on:
             return (0, 0)
 
-        v, w = self.output(robot)
-        # v = 0.1 * np.sign(np.sin(2*np.pi*0.5*time.time()))
-        # w = 0
+        if self.world.enableManualControl:
+            v = self.world.manualControlSpeedV
+            w = self.world.manualControlSpeedW
+        else:
+            v, w = self.output(robot)
         robot.lastControlLinVel = v
         
         vr, vl = speeds2motors(v, w)
