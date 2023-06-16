@@ -22,8 +22,8 @@ pip install -r requirements.txt
 4. No terminal 2, mover para o diretório ALP-Winners e executar com:
 ```
 python3 src/main.py --team-color blue --team-side left --immediate-start --port 5001 --n_robots 3
-
 ```
+
 
 > ### Importante!!
 >
@@ -52,3 +52,8 @@ sendo que ```ttyACM0``` deve ser o nome da porta que você deseja autorizar. Dep
 > Erros na comunicação são comuns. Segue o mais frequente e como lidar nessa situação:
 >
 > - O robô está ligado, esperando pela comunicação com o conjunto ESP32 + nrf24l01, fazendo movimentação senoidal (apenas andando para frente e para trás). O conjunto está conectado no computador e está ligado mas nada muda. Nesse caso, basta desconectar o cabo USB da ESP32 e conectar novamente. Se o rádio da ESP32 conseguir efetivar a comunicação, o movimento senoidal é interrompido e nesse caso, a comunicação está acontecendo de fato.
+
+
+## Configuração da camera
+
+No linux, a camera pode ser configurada usando uma interface gráfica do v4l, camset, disponibilizada nesse [repositório do Github](https://github.com/azeam/camset). Basta seguir as instruções do repositório para conseguir usar. Lembrar de configurar o PATH caso queira usar o comando ```camset```.
