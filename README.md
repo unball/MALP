@@ -38,6 +38,15 @@ Para isso, conectamos um módulo ESP32 + rádio nrf24l01. O firmware para a ESP3
 
 As informações enviadas pelo ESP32 + radio nrf24l01 são recebidas por um nrf24l01 presente no robô. O firmware responsável por esse rádio pode ser encontrado no repositório [Firmware](https://github.com/unball/Firmware).
 
+
+Para autorizar a porta serial com o computador, basta digitar no terminal
+
+```
+sudo chmod a+rw /dev/ttyACM0
+```
+
+sendo que ```ttyACM0``` deve ser o nome da porta que você deseja autorizar. Depois, basta dar reboot no computador para funcionar (talvez apenas fechar o terminal e abrir já funcione).
+
 > ### Atenção!
 >
 > Erros na comunicação são comuns. Segue o mais frequente e como lidar nessa situação:
