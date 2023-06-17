@@ -39,10 +39,10 @@ class MainVision(Vision):
     """Retorna o valor dos limites HSV para segmentação da bola"""
     return self.__model.bola_hsv
     
-  @property
-  def use_homography(self):
-    """Retorna a variável `use_homography` que indica se é para usar a matriz de homografia ou usar um corte retangular"""
-    return self.__model.use_homography
+  # @property
+  # def use_homography(self):
+  #   """Retorna a variável `use_homography` que indica se é para usar a matriz de homografia ou usar um corte retangular"""
+  #   return self.__model.use_homography
   
   @property
   def areaRatio(self):
@@ -74,9 +74,9 @@ class MainVision(Vision):
     """Atualiza o valor do limite HSV de índice `index` para segmentação da bola."""
     self.__model.bola_hsv[index] = value
     
-  def setUseHomography(self, value):
-    """Atualiza o valor da flag `use_homography`."""
-    self.__model.use_homography = value
+  # def setUseHomography(self, value):
+  #   """Atualiza o valor da flag `use_homography`."""
+  #   self.__model.use_homography = value
     
   def updateCropPoints(self, points):
     """Atualiza os pontos de corte retangular."""
@@ -141,20 +141,12 @@ class MainVision(Vision):
   def warp(self, frame):
     """Método que corta de forma retangular ou via homografia a depender de `MainSystem.model.vision.mainVisionModel.MainVisionModel`"""
     
-    if not self.__model.use_homography:
-      if self.__model.crop_points:
-        p0 = normToAbs(self.__model.crop_points[0], frame.shape)
-        p1 = normToAbs(self.__model.crop_points[1], frame.shape)
-        return MainVision.crop(frame, p0, p1)
-      else:
-        return frame
-        
-    else:
-      homography_matrix = self.getHomography(frame.shape)
-      try:
-        return cv2.warpPerspective(frame, np.array(homography_matrix), (frame.shape[1], frame.shape[0]))
-      except:
-        return frame
+    
+    homography_matrix = self.getHomography(frame.shape)
+    try:
+      return cv2.warpPerspective(frame, np.array(homography_matrix), (frame.shape[1], frame.shape[0]))
+    except:
+      return frame
         
   def converterHSV(self, img):
     """Converte uma imagem RGB para HSV e aplica um filtro gaussiano"""
