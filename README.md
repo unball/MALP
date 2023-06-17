@@ -39,21 +39,17 @@ Para isso, conectamos um módulo ESP32 + rádio nrf24l01. O firmware para a ESP3
 As informações enviadas pelo ESP32 + radio nrf24l01 são recebidas por um nrf24l01 presente no robô. O firmware responsável por esse rádio pode ser encontrado no repositório [Firmware](https://github.com/unball/Firmware).
 
 
-Para autorizar a porta serial com o computador, basta digitar no terminal
-
-```
-sudo chmod a+rw /dev/ttyACM0
-```
-
-sendo que ```ttyACM0``` deve ser o nome da porta que você deseja autorizar. Depois, basta dar reboot no computador para funcionar (talvez apenas fechar o terminal e abrir já funcione).
-
 > ### Atenção!
 >
-> Erros na comunicação são comuns. Segue o mais frequente e como lidar nessa situação:
+> Erros na comunicação são comuns. Segue uma lista de problemas e possíveis soluções:
 >
 > - O robô está ligado, esperando pela comunicação com o conjunto ESP32 + nrf24l01, fazendo movimentação senoidal (apenas andando para frente e para trás). O conjunto está conectado no computador e está ligado mas nada muda. Nesse caso, basta desconectar o cabo USB da ESP32 e conectar novamente. Se o rádio da ESP32 conseguir efetivar a comunicação, o movimento senoidal é interrompido e nesse caso, a comunicação está acontecendo de fato.
-
+> - Pode acontecer da porta serial não ser autorizada pelo computador. Para resolver esse problema, basta digitar no terminal o comando abaixo. P.S.: ```ttyUSB0``` é a porta por onde o rádio tenta conectar com o computador.
+>
+> ```
+> sudo chmod a+rw /dev/ttyUSB0
+> ```
 
 ## Configuração da camera
 
-No linux, a camera pode ser configurada usando uma interface gráfica do v4l, camset, disponibilizada nesse [repositório do Github](https://github.com/azeam/camset). Basta seguir as instruções do repositório para conseguir usar. Lembrar de configurar o PATH caso queira usar o comando ```camset```.
+No Linux, a camera pode ser configurada usando uma interface gráfica do v4l, ```camset```, disponibilizada nesse [repositório do Github](https://github.com/azeam/camset). Basta seguir as instruções do repositório para conseguir usar. Lembrar de configurar o PATH caso queira usar o comando ```camset```.
