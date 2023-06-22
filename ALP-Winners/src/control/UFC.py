@@ -73,7 +73,6 @@ class UFC_Simple(Control):
   def output(self, robot):
     if robot.field is None: return 0,0
     # Ângulo de referência
-    #th = (time.time()/1) % (2*np.pi) - np.pi#np.pi/2 * np.sign(time.time() % 3 - 1.5)#robot.field.F(robot.pose)
     th = robot.field.F(robot.pose)
     # Erro angular
     eth = angError(th, robot.th)
@@ -101,8 +100,6 @@ class UFC_Simple(Control):
     # Velocidade limite de aproximação
     v3 = self.kp * norm(robot.pos, robot.field.Pb) ** 2 + robot.vref
 
-    # v4 = self.kv / abs(eth) + self.vbias
-
     # Velocidade linear é menor de todas
     sd = self.abs_path_dth(robot.pose, eth, robot.field)
     #if robot.id == 0: print(sd)
@@ -110,19 +107,7 @@ class UFC_Simple(Control):
 
     if self.enableInjection:
       currentnorm = norm(robot.pos, robot.field.Pb)
-      #print(self.integrateinjection)
-      # if self.integrateinjection > 10:
-      #   injection = 0
-      # else:
-      #   injection = 0.0015 / (abs(currentnorm - self.lastnorm) + 1e-3)
-      # self.integrateinjection = max(self.integrateinjection + injection - 0.5, 0)
-      # if abs(currentnorm - self.lastnorm) < 0.001:
-      #   self.loadedInjection = 0.90 * self.loadedInjection + 10 * 0.10
-      # else:
-      #   self.loadedInjection = 0.90 * self.loadedInjection
-      #injection = 0.0010 / (abs(currentnorm - self.lastnorm) + 1e-3)
-      #injection = 2 * norml(self.vPb) * (np.dot(self.vPb, unit(robot.field.Pb[2])) < 0) * 0.10 / norm(robot.pos, robot.field.Pb[:2])
-      
+
       # Only apply injection near
       d = norm(robot.pos, robot.field.Pb[:2])
       r1 = 0.10
@@ -142,12 +127,6 @@ class UFC_Simple(Control):
 
     v5 = self.vbias + (self.vmax-self.vbias) * self.controlLine(np.log(sd), np.log(self.sd_max), np.log(self.sd_min))
     v  = min(v5, v3) + sat(injection, 1)
-    #print(vtarget)
-    #v  = max(min(self.vbias + (self.vmax-self.vbias) * np.exp(-self.kapd * sd), v3), self.loadedInjection * vtarget)#max(min(v1, v2, v3, v4), 0)
-    #ev = self.lastvref - robot.velmod
-    #v = 1 * norm(robot.pos, robot.field.Pb) + 0.1 * ev + 0.2
-    # v = 0.25#0.5*np.sin(2*time.time())+0.5
-    # w = 0#2*np.sin(5*time.time())
     
     # Atualiza a última referência
     self.lastth = self.lastth[1:] + [th]
@@ -214,58 +193,3 @@ class UFC_Simple(Control):
     if robot.spin == 0: return (v * robot.direction, w)
     else: return (0, 60 * robot.spin)
 
-# class UFC():
-#   """Controle unificado para o Univector Field, utiliza o ângulo definido pelo campo como referência \\(\\theta_d\\)."""
-#   def __init__(self):
-#     self.g = 9.8
-#     self.kw = 5.5
-#     self.kp = 10
-#     self.mu = 0.7
-#     self.amax = self.mu * self.g
-#     self.vmax = 2
-#     self.L = 0.075
-
-#     self.lastth = 0
-#     self.interval = Interval(filter=True, initial_dt=0.016)
-
-#   def actuate(self, robot):
-#     if robot.field is None: return 0,0
-#     # Ângulo de referência
-#     th = robot.field.F(robot.pose)
-#     # Erro angular
-#     eth = angError(th, robot.th)
-#     # Tempo desde a última atuação
-#     dt = self.interval.getInterval()
-#     # Derivada da referência
-#     dth = sat(angError(th, self.lastth) / dt, 15)
-#     # Computa phi
-#     phi = robot.field.phi(robot.pose)
-#     # Computa gamma
-#     gamma = robot.field.gamma(dth, robot.velmod, phi)
-#     #print("eth: {:.4f}\tphi: {:.4f}\tth: {:.4f}\trth: {:.4f}\t".format(eth*180/np.pi, phi, th*180/np.pi, robot.th*180/np.pi))
-    
-#     # Computa omega
-#     omega = self.kw * np.sign(eth) * np.sqrt(np.abs(eth)) + gamma
-
-#     # Velocidade limite de deslizamento
-#     if phi != 0: v1 = (-np.abs(omega) + np.sqrt(omega**2 + 4 * np.abs(phi) * self.amax)) / (2*np.abs(phi))
-#     if phi == 0: v1 = self.amax / np.abs(omega)
-
-#     # Velocidade limite das rodas
-#     v2 = (2*self.vmax - self.L * np.abs(omega)) / (2 + self.L * np.abs(phi))
-
-#     # Velocidade limite de aproximação
-#     v3 = self.kp * norm(robot.pos, robot.field.Pb) ** 2 + robot.vref
-
-#     # Velocidade linear é menor de todas
-#     v  = max(min(v1, v2, v3), 0)
-
-#     # Lei de controle da velocidade angular
-#     w = v * phi + omega
-    
-#     # Atualiza a última referência
-#     self.lastth = th
-#     robot.lastControlLinVel = v
-    
-#     if robot.spin == 0: return speeds2motors(v * robot.direction, w)
-#     else: return speeds2motors(0, 60 * robot.spin)
