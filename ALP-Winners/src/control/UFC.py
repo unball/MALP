@@ -74,22 +74,18 @@ class UFC_Simple(Control):
     if robot.field is None: return 0,0
     # Ângulo de referência
     th = robot.field.F(robot.pose)
+    
     # Erro angular
     eth = angError(th, robot.th)
 
     # Tempo desde a última atuação
     dt = self.interval.getInterval()
 
-    # Derivada da referência
-    dth = filt(0.5 * (th - self.lastth[-1]) / dt + 0.2 * (th - self.lastth[-2]) / (2*dt) + 0.2 * (th - self.lastth[-3]) / (3*dt) + 0.1 * (th - self.lastth[-4]) / (4*dt), 10)
-    #dth = filt((th - self.lastth) / dt, 10)
+    # Calcula a integral e satura (descobrir o quanto saturar, tirei esse 64 rad/s)
+    self.integral = sat(self.integral + eth * dt, 64)
 
-    # Erro de velocidade angular
-    ew = self.lastwref - robot.w
-
-    # Lei de controle da velocidade angular
-    w = dth + self.kw * np.sqrt(abs(eth)) * np.sign(eth) #* (robot.velmod + 1)
-    #w = self.kw * eth + 0.3 * ew
+    # Tentativa de "remoção do controle de alto nível" do Luiz
+    w = self.kp * eth + self.ki*self.integral
 
     # Velocidade limite de deslizamento
     v1 = self.amax / np.abs(w)
@@ -100,46 +96,16 @@ class UFC_Simple(Control):
     # Velocidade limite de aproximação
     v3 = self.kp * norm(robot.pos, robot.field.Pb) ** 2 + robot.vref
 
-    # Velocidade linear é menor de todas
-    sd = self.abs_path_dth(robot.pose, eth, robot.field)
-    #if robot.id == 0: print(sd)
-    Pb = np.array(robot.field.Pb[:2])
-
-    if self.enableInjection:
-      currentnorm = norm(robot.pos, robot.field.Pb)
-
-      # Only apply injection near
-      d = norm(robot.pos, robot.field.Pb[:2])
-      r1 = 0.10
-      r2 = 0.50
-      eta = sats((r2 - d) / (r2 - r1), 0, 1)
-
-      # Injection if ball runs in oposite direction
-      if np.dot(self.vPb, unit(robot.field.Pb[2])) < 0:
-        raw_injection = max(-np.dot(self.vPb, unit(robot.field.Pb[2])), 0)
-      else:
-        raw_injection = 0.5 * max(np.dot(self.vPb, unit(robot.field.Pb[2])), 0)
-
-      injection = raw_injection * eta
-    else:
-      currentnorm = 0
-      injection = 0
-
-    v5 = self.vbias + (self.vmax-self.vbias) * self.controlLine(np.log(sd), np.log(self.sd_max), np.log(self.sd_min))
-    v  = min(v5, v3) + sat(injection, 1)
+    v  = min(v1, v2, v3)
     
     # Atualiza a última referência
     self.lastth = self.lastth[1:] + [th]
-    self.lastnorm = currentnorm
     robot.lastControlLinVel = v
 
     # Atualiza variáveis de estado
     self.eth = eth
-    self.lastdth = dth
     self.lastwref = w
     self.lastvref = v
-    self.vPb = 0.90 * self.vPb + 0.10 * (Pb - self.lastPb) / dt
-    self.lastPb = Pb
 
     if PLOT_CONTROL:
       self.plots["eth"].append(eth * 180 / np.pi)
