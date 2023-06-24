@@ -21,23 +21,21 @@ class Control(ABC):
     def output(self, robot):
         pass
 
-    def actuateNoControl(self, robot):
+    def actuate(self, robot):
         if not robot.on:
             return (0, 0)
 
         v, w = self.output(robot)
-        # v = 0.1 * np.sign(np.sin(2*np.pi*0.5*time.time()))
-        # w = 0
         robot.lastControlLinVel = v
         
         vr, vl = speeds2motors(v, w)
-        
-        vr = 3*int(sat(vr * 127 / 110, 127))
-        vl = 3*int(sat(vl * 127 / 110, 127))
+
+        vr = int(deadzone(sat(vr, 255), 32, -32))
+        vl = int(deadzone(sat(vl, 255), 32, -32))
         
         return vr, vl
 
-    def actuate(self, robot):
+    def actuateOldControl(self, robot):
         if not robot.on:
             return (0, 0)
 
