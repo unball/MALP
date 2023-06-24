@@ -71,17 +71,20 @@ class Loop:
         
         control_output = []
         for robot in self.world.team:
+            if robot.entity is not None:
+                control_output.append(robot.entity.control.actuate(robot))
+
             # if robot.entity.__class__.__name__ == "GoalKeeper":
                 # print('x_raw:', robot.x_raw, '. x:', self.world.field.side * robot.x_raw)
                 # print('vx_raw:', robot.vx_raw, '. vx:', self.world.field.side * robot.vx_raw)
                 # print('th_raw:', robot.th_raw, '. th:', self.world.field.side * robot.th_raw)
                 # print('w_raw:', robot.w_raw, '. w:', self.world.field.side * robot.w_raw)
 
-            if robot.entity is not None:
-                if(robot.entity.__class__.__name__ == "GoalKeeper" or robot.entity.__class__.__name__ == "Defender"):
-                    control_output.append(robot.entity.control.actuateNoControl(robot))
-                else:
-                    control_output.append(robot.entity.control.actuate(robot))
+            # if robot.entity is not None:
+            #     if(robot.entity.__class__.__name__ == "GoalKeeper" or robot.entity.__class__.__name__ == "Defender"):
+            #         control_output.append(robot.entity.control.actuateNoControl(robot))
+            #     else:
+            #         control_output.append(robot.entity.control.actuate(robot))
 
         # print('controle:', control_output)
         
