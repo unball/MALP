@@ -31,8 +31,6 @@ class CortarCampo(FrameRenderer):
     
     builder = Gtk.Builder.new_from_file(resource_filename(__name__, "cortarCampo.ui"))
     builder.get_object("campo_switch").connect("state-set", self.set_show_mode)
-    builder.get_object("homografia_switch").connect("state-set", self.set_crop_mode)
-    builder.get_object("homografia_switch").set_state(self.__visionSystem.use_homography)
     self.__eventBox.connect("button-press-event", self.update_points)
     self.__eventBox.connect("motion-notify-event", self.mouse_over)
     
@@ -69,24 +67,16 @@ class CortarCampo(FrameRenderer):
     
     point = self.getRelPoint(widget, event)
     
-    if self.__visionSystem.use_homography:
-      if len(self.__model.clicked_points_homography) == 4: self.__model.clicked_points_homography.clear()
-      self.__model.clicked_points_homography.append(point)
-    else:
-      if len(self.__model.clicked_points_crop) == 2: self.__model.clicked_points_crop.clear()
-      self.__model.clicked_points_crop.append(point)
+    if len(self.__model.clicked_points_homography) == 4: self.__model.clicked_points_homography.clear()
+    self.__model.clicked_points_homography.append(point)
       
     self.update_vision_points()
   
   def update_vision_points(self):
     """Atualiza a visão com os novos pontos"""
-    if self.__visionSystem.use_homography:
-      if len(self.__model.clicked_points_homography) == 4:
-        self.__controller.addEvent(self.__visionSystem.updateHomographyPoints, self.__model.clicked_points_homography.copy())
-    else:
-      if len(self.__model.clicked_points_crop) == 2:
-        self.__controller.addEvent(self.__visionSystem.updateCropPoints, self.__model.clicked_points_crop.copy())
-  
+    if len(self.__model.clicked_points_homography) == 4:
+      self.__controller.addEvent(self.__visionSystem.updateHomographyPoints, self.__model.clicked_points_homography.copy())
+   
   def mouse_over(self, widget, event):
     """Evento quando o mouse sobrepõe o frame, este método atualiza a posição relativa do mouse"""
     self.__current_mouse_position = self.getRelPoint(widget, event)
@@ -98,49 +88,35 @@ class CortarCampo(FrameRenderer):
     
     if self.__show_warpped: return self.__visionSystem.warp(frame)
     else:
-      if self.__visionSystem.use_homography:
-        color = (0,255,0) if len(self.__model.clicked_points_homography) == 4 else (255,255,255)
-        mousePos = normToAbs(self.__current_mouse_position, frame.shape)
-    
-        # Draw line for each pair of points
-        if len(self.__model.clicked_points_homography) > 1:
-          for i in range(len(self.__model.clicked_points_homography)-1):
-            p0 = normToAbs(self.__model.clicked_points_homography[i], frame.shape)
-            p1 = normToAbs(self.__model.clicked_points_homography[i+1], frame.shape)
-            cv2.line(frame, p0, p1, color, thickness=2)
-        
-        # Closes rectangle
-        if len(self.__model.clicked_points_homography) == 4:
-          p0 = normToAbs(self.__model.clicked_points_homography[0], frame.shape)
-          p1 = normToAbs(self.__model.clicked_points_homography[3], frame.shape)
-          cv2.line(frame, p0, p1, color, thickness=2)
-        
-        # Draw helping line from last chosen point to current mouse position
-        if len(self.__model.clicked_points_homography) > 0 and len(self.__model.clicked_points_homography) < 4:
-          plast = normToAbs(self.__model.clicked_points_homography[-1], frame.shape)
-          p0 = normToAbs(self.__model.clicked_points_homography[0], frame.shape)
-          cv2.line(frame, plast, mousePos, (255,255,255))
-          # Draw extra line from first chosen point to current position when it's the last point to be chosen
-          if len(self.__model.clicked_points_homography) == 3:
-            cv2.line(frame, p0, mousePos, color)
-        
-        for i in range(len(self.__model.clicked_points_homography)):
+      color = (0,255,0) if len(self.__model.clicked_points_homography) == 4 else (255,255,255)
+      mousePos = normToAbs(self.__current_mouse_position, frame.shape)
+  
+      # Draw line for each pair of points
+      if len(self.__model.clicked_points_homography) > 1:
+        for i in range(len(self.__model.clicked_points_homography)-1):
           p0 = normToAbs(self.__model.clicked_points_homography[i], frame.shape)
-          cv2.circle(frame, p0, 5, color, thickness=-1)
-          
-        return frame
+          p1 = normToAbs(self.__model.clicked_points_homography[i+1], frame.shape)
+          cv2.line(frame, p0, p1, color, thickness=2)
+      
+      # Closes rectangle
+      if len(self.__model.clicked_points_homography) == 4:
+        p0 = normToAbs(self.__model.clicked_points_homography[0], frame.shape)
+        p1 = normToAbs(self.__model.clicked_points_homography[3], frame.shape)
+        cv2.line(frame, p0, p1, color, thickness=2)
+      
+      # Draw helping line from last chosen point to current mouse position
+      if len(self.__model.clicked_points_homography) > 0 and len(self.__model.clicked_points_homography) < 4:
+        plast = normToAbs(self.__model.clicked_points_homography[-1], frame.shape)
+        p0 = normToAbs(self.__model.clicked_points_homography[0], frame.shape)
+        cv2.line(frame, plast, mousePos, (255,255,255))
+        # Draw extra line from first chosen point to current position when it's the last point to be chosen
+        if len(self.__model.clicked_points_homography) == 3:
+          cv2.line(frame, p0, mousePos, color)
+      
+      for i in range(len(self.__model.clicked_points_homography)):
+        p0 = normToAbs(self.__model.clicked_points_homography[i], frame.shape)
+        cv2.circle(frame, p0, 5, color, thickness=-1)
+        
+      return frame
         
         
-      else:
-        if len(self.__model.clicked_points_crop) == 1:
-          p0 = normToAbs(self.__model.clicked_points_crop[0], frame.shape)
-          mousePos = normToAbs(self.__current_mouse_position, frame.shape)
-          cv2.circle(frame, p0, 5, (255,255,255), thickness=-1)
-          cv2.rectangle(frame, p0, mousePos, (255,255,255))
-        elif len(self.__model.clicked_points_crop) == 2:
-          p0 = normToAbs(self.__model.clicked_points_crop[0], frame.shape)
-          p1 = normToAbs(self.__model.clicked_points_crop[1], frame.shape)
-          cv2.circle(frame, p0, 5, (0,255,0), thickness=-1)
-          cv2.circle(frame, p1, 5, (0,255,0), thickness=-1)
-          cv2.rectangle(frame, p0, p1, (0,255,0), thickness=2)
-        return frame

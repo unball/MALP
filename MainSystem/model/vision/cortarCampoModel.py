@@ -7,6 +7,5 @@ class CortarCampoModel(ModelContext):
   def __init__(self):
     ModelContext.__init__(self, {
       "clicked_points_homography": ("clicked_points_homography", []),
-      "clicked_points_crop": ("clicked_points_crop", [])
     })
     """Variáveis armazenadas no modelo"""
