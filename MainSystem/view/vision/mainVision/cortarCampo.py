@@ -31,8 +31,6 @@ class CortarCampo(FrameRenderer):
     
     builder = Gtk.Builder.new_from_file(resource_filename(__name__, "cortarCampo.ui"))
     builder.get_object("campo_switch").connect("state-set", self.set_show_mode)
-    builder.get_object("homografia_switch").connect("state-set", self.set_crop_mode)
-    # builder.get_object("homografia_switch").set_state(self.__visionSystem.use_homography)
     self.__eventBox.connect("button-press-event", self.update_points)
     self.__eventBox.connect("motion-notify-event", self.mouse_over)
     

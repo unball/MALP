@@ -10,8 +10,6 @@ class MainVisionModel(ModelContext):
       "time_hsv": ("time_hsv_interval", [13,0,0,32,360,360]),
       "bola_hsv": ("bola_hsv_interval", [0, 117, 0, 98, 360, 360]),
       "homography": ("homography_matrix", None),
-      # "use_homography": ("use_homography", True),
-      "crop_points": ("crop_points"),
       "homography_points": ("homography_points"),
       "cont_rect_area_ratio": ("cont_rect_area_ratio", 0.75),
       "min_internal_area_contour": ("min_internal_area_contour", 10),
