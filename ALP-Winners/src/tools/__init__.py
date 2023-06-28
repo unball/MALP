@@ -3,6 +3,7 @@ import numpy as np
 # Constantes físicas do robô
 r = 0.016
 L = 0.075
+wheel_reduction = 1
 wheel_w_max = 110
 conversion = 127 / wheel_w_max
 
