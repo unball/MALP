@@ -33,12 +33,6 @@ class ControlTester(Entity):
             if abs(angError(ref_th, rob_th)) > 90 * np.pi / 180:
                 self.robot.direction *= -1
                 self.lastChat = time.time()
-            
-            # Inverter a direção se o robô ficar preso em algo
-            elif not self.robot.isAlive() and self.robot.spin == 0:
-                if time.time()-self.lastChat > .3:
-                    self.lastChat = time.time()
-                    self.robot.direction *= -1
 
     def fieldDecider(self):
         Pb = doSquareTest(0,0,0,0)
