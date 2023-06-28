@@ -4,7 +4,7 @@ from strategy.field.DirectionalField import DirectionalField
 from strategy.field.goalKeeper import GoalKeeperField
 from strategy.field.attractive import AttractiveField
 from strategy.movements import goalkeep, spinGoalKeeper
-from tools import angError, howFrontBall, howPerpBall, ang, norml, norm, angl
+from tools import angError, howFrontBall, howPerpBall, ang, norml, norm, angl, doSquareTest
 from tools.interval import Interval
 from control.goalKeeper import GoalKeeperControl
 from control.UFC import UFC_Simple
@@ -41,9 +41,7 @@ class ControlTester(Entity):
                     self.robot.direction *= -1
 
     def fieldDecider(self):
-        #ir pro ponto 1
-        #ir pro ponto 2
-        #ir pro ponto 3
-        #ir pro ponto 4
-        pass
+        Pb = doSquareTest(0,0,0,0)
+        self.robot.field = UVF(Pb)
+        self._control = UFC_Simple(self.world)
 
