@@ -3,7 +3,7 @@
 - Volte para a raíz do projeto e execute `pip3 install -r requirements.txt`
 
 ## Execução
-Para executar o sistema sem o VSSReferee rode `python3 src/main.py --team-color blue --team-side left --immediate-start --port 5001 --n_robots 3`
+Para executar o sistema sem o VSSReferee rode `python3 src/main.py --port 5001`
 
 # Docker
 O sistema pode ser executado com docker. 
