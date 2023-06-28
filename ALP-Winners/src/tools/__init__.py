@@ -12,7 +12,7 @@ def deadzone(vin, up, down):
     return vin+up if (vin > 0) else vin-abs(down)
   return 0
 
-def speeds2motors(v: float, w: float) -> (int, int):
+def speeds2motors(v: float, w: float):
   """Recebe velocidade linear e angular e retorna velocidades para as duas rodas"""
 
   # Computa a velocidade angular de rotação de cada roda
