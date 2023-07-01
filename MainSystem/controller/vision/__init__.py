@@ -8,7 +8,7 @@ from controller.vision.visionMessage import VisionMessage
 class Vision(ABC):
   """Classe que define as interfaces que qualquer sistema de visão deve ter no sistema."""
   
-  def __init__(self, world, port):
+  def __init__(self, world, port, debug):
     super().__init__()
     
     self.cameraHandler = CameraHandler()
@@ -20,7 +20,7 @@ class Vision(ABC):
     self.usePastPositions = False
     self.lastCandidateUse = 0
   
-    self.server_pickle = ServerPickle(port)
+    self.server_pickle = ServerPickle(port, debug)
 
   @abstractmethod
   def process(self, frame):

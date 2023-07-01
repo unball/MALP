@@ -24,6 +24,7 @@ class Loop:
         static_entities=False,
         port=5001,
         n_robots=3,
+        debug=False
     ):
         # Instancia interface com o simulador
         #self.vss = VSS(team_yellow=team_yellow)
@@ -44,6 +45,7 @@ class Loop:
         self.radio = SerialRadio()
         self.execute = False
         self.t0 = time.time()
+        self.debug= debug
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -58,7 +60,8 @@ class Loop:
     def loop(self):
         if self.world.updateCount == self.lastupdatecount: return
         
-        print((time.time()-self.t0)*1000)
+        if(self.debug): print((time.time()-self.t0)*1000)
+
         self.t0 = time.time()
         
         self.lastupdatecount = self.world.updateCount
@@ -67,29 +70,13 @@ class Loop:
         self.strategy.update()
 
         # Executa o controle
-        # control_output = [robot.entity.control.actuateNoControl(robot) for robot in self.world.team if robot.entity is not None]
-        
+        control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
 
-        control_output = []
-        for robot in self.world.team:
             # if robot.entity.__class__.__name__ == "GoalKeeper":
                 # print('x_raw:', robot.x_raw, '. x:', self.world.field.side * robot.x_raw)
                 # print('vx_raw:', robot.vx_raw, '. vx:', self.world.field.side * robot.vx_raw)
                 # print('th_raw:', robot.th_raw, '. th:', self.world.field.side * robot.th_raw)
                 # print('w_raw:', robot.w_raw, '. w:', self.world.field.side * robot.w_raw)
-
-            if self.world.enableManualControl:
-                print("Controle manual")
-                print("V:", self.world.manualControlSpeedV)
-                print("W:", self.world.manualControlSpeedW)
-
-            if robot.entity is not None:
-                if(robot.entity.__class__.__name__ == "GoalKeeper" or robot.entity.__class__.__name__ == "Defender"):
-                    control_output.append(robot.entity.control.actuateNoControl(robot))
-                else:
-                    control_output.append(robot.entity.control.actuate(robot))
-
-        # print('controle:', control_output)
         
         if self.execute:
             for robot in self.world.raw_team: robot.turnOn()   

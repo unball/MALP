@@ -1,15 +1,9 @@
 import numpy as np
 
 # Constantes físicas do robô
-wheel_reduction = 5
-
-# Supostamente devia ser
-#r = 0.0325
-#L = 0.075
-
-# O que realmente é
 r = 0.016
-L = 0.052
+L = 0.075
+wheel_reduction = 1
 wheel_w_max = 110
 conversion = 127 / wheel_w_max
 
@@ -18,16 +12,12 @@ def deadzone(vin, up, down):
     return vin+up if (vin > 0) else vin-abs(down)
   return 0
 
-def speeds2motors(v: float, w: float) -> (int, int):
+def speeds2motors(v: float, w: float):
   """Recebe velocidade linear e angular e retorna velocidades para as duas rodas"""
 
   # Computa a velocidade angular de rotação de cada roda
-  vr = (v + (L/2)*w) / r#/ (2*np.pi*r) * wheel_reduction
-  vl = (v - (L/2)*w) / r#/ (2*np.pi*r) * wheel_reduction
-
-  #if fabs(vr) > max_motor_speed or fabs(vl) > max_motor_speed:
-  #  vr = max_motor_speed * vr / max(vr, vl)
-  #  vl = max_motor_speed * vl / max(vr, vl)
+  vr = (v + (L/2)*w) / r
+  vl = (v - (L/2)*w) / r
   
   # vr = 3*int(sat(vr * conversion, 127))
   # vl = 3*int(sat(vl * conversion, 127))
