@@ -45,6 +45,8 @@ class Loop:
         self.execute = False
         self.t0 = time.time()
 
+        self.increment_control = 0
+
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
         if self.draw_uvf:
@@ -67,7 +69,9 @@ class Loop:
         self.strategy.update()
 
         # Executa o controle
-        control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
+        control_output = [robot.entity.control.actuate(robot, self.increment_control) for robot in self.world.team if robot.entity is not None]
+        
+        self.increment_control += 5
 
             # if robot.entity.__class__.__name__ == "GoalKeeper":
                 # print('x_raw:', robot.x_raw, '. x:', self.world.field.side * robot.x_raw)
