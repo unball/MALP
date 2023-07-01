@@ -38,4 +38,3 @@ class Control(ABC):
         return vr, vl
 
 
-

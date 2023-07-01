@@ -61,7 +61,10 @@ class Vision(ABC):
       message.append(self._world.robots[i].inst_w)
     
     message.append(self._world.running)
-    message.append(self._world.checkBatteries)
+    message.append(self._world.enableManualControl)
+    message.append(self._world.manualControlSpeedV)
+    message.append(self._world.manualControlSpeedW)
+
 
     self.server_pickle.send(message)
 
