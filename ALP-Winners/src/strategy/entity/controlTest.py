@@ -4,7 +4,7 @@ from strategy.field.DirectionalField import DirectionalField
 from strategy.field.goalKeeper import GoalKeeperField
 from strategy.field.attractive import AttractiveField
 from strategy.movements import goalkeep, spinGoalKeeper
-from tools import angError, howFrontBall, howPerpBall, ang, norml, norm, angl, doSquareTest
+from tools import angError, howFrontBall, howPerpBall, ang, norml, norm, angl
 from tools.interval import Interval
 from control.goalKeeper import GoalKeeperControl
 from control.UFC import UFC_Simple
@@ -17,10 +17,14 @@ class ControlTester(Entity):
         super().__init__(world, robot)
 
         self._control = UFC_Simple(self.world)
+        self.lastChat = 0
 
     @property
     def control(self):
         return self._control
+    
+    def equalsTo(self, otherTester):
+        return True
 
     def onExit(self):
         pass
@@ -34,8 +38,16 @@ class ControlTester(Entity):
                 self.robot.direction *= -1
                 self.lastChat = time.time()
 
+            # Inverter a direção se o robô ficar preso em algo
+            elif not self.robot.isAlive() and self.robot.spin == 0:
+                self.lastChat = time.time()
+                self.robot.direction *= -1
+
     def fieldDecider(self):
-        Pb = doSquareTest(0,0,0,0)
-        self.robot.field = UVF(Pb)
-        self._control = UFC_Simple(self.world)
+        rr = np.array(self.robot.pos)
+        
+        if rr[0] > 0.4:
+            self.robot.field = DirectionalField(np.pi)
+        if  rr[0] < -0.4:
+            self.robot.field = DirectionalField(0)
 
