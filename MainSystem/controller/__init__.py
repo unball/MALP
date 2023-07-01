@@ -15,7 +15,7 @@ from helpers import Mux
 class Controller:
   """Classe que declara a thread do backend e define o estado do sistema"""
   
-  def __init__(self, port, n_robots):
+  def __init__(self, port, n_robots, debug):
     self.__thread = Thread(target=self.loop)
     """Thread que executa o backend do sistema"""
     
@@ -31,13 +31,15 @@ class Controller:
     self.world = World(n_robots=n_robots)
     """Essa é uma instância do mundo. O mundo contém informações sobre estado do campo como posição de robôs, velocidades, posição de bola e limites do campo."""
     
-    self.visionSystem = MainVision(self.world, port)
+    self.visionSystem = MainVision(self.world, port, debug)
     """Instância do sistema de visão"""
     
     self.communicationSystems = Mux([SerialRadio(self.world)])
     """Instância do sistema que se comunica com o rádio"""
     
     self.__thread.start()
+
+    self.__debug = debug
   
   def addEvent(self, method, *args, run_when_done_with_glib=None):
     """Adiciona um evento a fila de eventos agendados para serem executados no início do próximo loop do backend. Se `run_when_done_with_glib` estiver definido como a tupla `(method,args)` o método dessa tupla será executado depois que o evento for executado."""
