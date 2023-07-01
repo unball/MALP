@@ -14,7 +14,6 @@ parser.add_argument('--static-entities', dest='static_entities', action='store_c
 parser.add_argument('--disable-alp-gui', dest='disable_alp_gui', action='store_const', const=True, default=False, help='If set, no communciation with ALP-GUI overhead will be added.')
 parser.add_argument('--port', dest='port', type=int, default=5001, help='Port number to bind the pickle socket.')
 parser.add_argument('--n_robots', dest='n_robots', type=int, default=5, help='Number of robots for each time in the match.')
-parser.add_argument('--debug', dest='debug', action='store_const', const=True, default=False, help="Show loop execution time" )
 args = parser.parse_args()
 
 if args.disable_alp_gui: client.gui.disabled = True
@@ -27,8 +26,7 @@ loop = Loop(
     immediate_start=True,
     static_entities=False,
     port=args.port,
-    n_robots=3,
-    debug=args.debug,
+    n_robots=3
 )
 
 loop.run()
