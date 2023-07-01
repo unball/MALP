@@ -3,7 +3,6 @@ from tools import speeds2motors, deadzone, sat
 import numpy as np
 import time
 
-
 class Control(ABC):
     def __init__(self, world):
         ABC.__init__(self)
@@ -14,11 +13,13 @@ class Control(ABC):
     def output(self, robot):
         pass
 
-    def actuate(self, robot):
+    def actuate(self, robot, increment_control):
         if not robot.on:
             return (0, 0)
 
-        v, w = self.output(robot)
+        # v, w = self.output(robot)
+        v = 0
+        w = 0.01*increment_control
         robot.lastControlLinVel = v
         
         vr, vl = speeds2motors(v, w)
