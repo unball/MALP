@@ -18,6 +18,8 @@ args = parser.parse_args()
 
 if args.disable_alp_gui: client.gui.disabled = True
 
+file_log = open("logIdentificacao.txt", "w")
+file_log.write("tempo w(entrada) x(saida) y(saida) th(saida)\n")
 # Instancia o programa principal
 loop = Loop(
     draw_uvf=False, 
@@ -26,7 +28,10 @@ loop = Loop(
     immediate_start=True,
     static_entities=False,
     port=args.port,
-    n_robots=3
+    n_robots=3,
+    file_log=file_log
 )
 
 loop.run()
+
+file_log.close()

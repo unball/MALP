@@ -19,7 +19,7 @@ class Control(ABC):
 
         # v, w = self.output(robot)
         v = 0
-        w = 0.01*increment_control
+        w = increment_control
         robot.lastControlLinVel = v
         
         vr, vl = speeds2motors(v, w)

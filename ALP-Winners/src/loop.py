@@ -24,6 +24,8 @@ class Loop:
         static_entities=False,
         port=5001,
         n_robots=3,
+        file_log="loop.log"
+
     ):
         # Instancia interface com o simulador
         #self.vss = VSS(team_yellow=team_yellow)
@@ -46,6 +48,8 @@ class Loop:
         self.t0 = time.time()
 
         self.increment_control = 0
+        self.file_log = file_log
+        self.increment_time_control = 0
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -71,7 +75,13 @@ class Loop:
         # Executa o controle
         control_output = [robot.entity.control.actuate(robot, self.increment_control) for robot in self.world.team if robot.entity is not None]
         
-        self.increment_control += 5
+        # usado para gerar lista para identificação do controle
+        log_line = f"{self.increment_time_control:.4f} {self.increment_control:.3f} {self.world.team[0].pose[0]:.3f} {self.world.team[0].pose[1]:.3f} {self.world.team[0].pose[2]:.3f}"  
+        self.file_log.write(log_line)
+        self.file_log.write("\n")
+
+        self.increment_time_control += (time.time()-self.t0)*1000
+        self.increment_control += 0.05
 
             # if robot.entity.__class__.__name__ == "GoalKeeper":
                 # print('x_raw:', robot.x_raw, '. x:', self.world.field.side * robot.x_raw)
