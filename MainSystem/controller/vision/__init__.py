@@ -8,7 +8,7 @@ from controller.vision.visionMessage import VisionMessage
 class Vision(ABC):
   """Classe que define as interfaces que qualquer sistema de visão deve ter no sistema."""
   
-  def __init__(self, world, port):
+  def __init__(self, world, port, debug):
     super().__init__()
     
     self.cameraHandler = CameraHandler()
@@ -20,7 +20,7 @@ class Vision(ABC):
     self.usePastPositions = False
     self.lastCandidateUse = 0
   
-    self.server_pickle = ServerPickle(port)
+    self.server_pickle = ServerPickle(port, debug)
 
   @abstractmethod
   def process(self, frame):
@@ -67,22 +67,6 @@ class Vision(ABC):
       "running": self._world.running,
       "check_batteries": self._world.checkBatteries
     }
-    # message.append(self._world.ball.pos[0])
-    # message.append(self._world.ball.pos[1])
-    # message.append(self._world.ball.vel[0])
-    # message.append(self._world.ball.vel[1])
-    # message.append(self._world.n_robots)
-    
-    # for i in range(self._world.n_robots):
-    #   message.append(self._world.robots[i].inst_x)
-    #   message.append(self._world.robots[i].inst_y)
-    #   message.append(self._world.robots[i].raw_th)
-    #   message.append(self._world.robots[i].inst_vx)
-    #   message.append(self._world.robots[i].inst_vy)
-    #   message.append(self._world.robots[i].inst_w)
-    
-    # message.append(self._world.running)
-    # message.append(self._world.checkBatteries)
 
     self.server_pickle.send(message)
 
