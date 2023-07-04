@@ -100,7 +100,7 @@ class Loop:
 
     def busyLoop(self):
         message = self.pclient.receive()
-        self.execute = message[23]
+        self.execute = message["running"]
         if message is not None: self.world.update(message)
         
         # command = self.rc.receive()
