@@ -69,15 +69,29 @@ class World:
             blue = self.team
 
         robot_id = 0
-        for robot in range(message[4]):
+        for robot in range(message["n_robots"]):
             if self.team_yellow: 
-                yellow[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
+                yellow[robot_id].update(
+                    message["robots"][robot_id]["pos_x"], 
+                    message["robots"][robot_id]["pos_y"], 
+                    message["robots"][robot_id]["th"], 
+                    message["robots"][robot_id]["vel_x"], 
+                    message["robots"][robot_id]["vel_y"], 
+                    message["robots"][robot_id]["w"]
+                )
             else:
-                blue[robot_id].update(message[5+6*robot], message[6+6*robot], message[7+6*robot], message[8+6*robot], message[9+6*robot], message[10+6*robot])
+                blue[robot_id].update(
+                    message["robots"][robot_id]["pos_x"], 
+                    message["robots"][robot_id]["pos_y"], 
+                    message["robots"][robot_id]["th"], 
+                    message["robots"][robot_id]["vel_x"], 
+                    message["robots"][robot_id]["vel_y"], 
+                    message["robots"][robot_id]["w"]
+                )
             robot_id+=1
        
-        self.ball.update(message[0], message[1], message[2], message[3])
-        self.checkBatteries = message[24]
+        self.ball.update(message["ball"]["pos_x"], message["ball"]["pos_y"], message["ball"]["vel_x"], message["ball"]["vel_y"])
+        self.checkBatteries = message["check_batteries"]
 
         self.updateCount += 1
 
