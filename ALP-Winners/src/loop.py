@@ -76,7 +76,7 @@ class Loop:
         control_output = [robot.entity.control.actuate(robot, self.increment_control) for robot in self.world.team if robot.entity is not None]
         
         # usado para gerar lista para identificação do controle
-        log_line = f"{self.increment_time_control:.4f} {self.increment_control:.3f} {self.world.team[0].pose[0]:.3f} {self.world.team[0].pose[1]:.3f} {self.world.team[0].pose[2]:.3f}"  
+        log_line = f"{self.increment_time_control:.4f} {self.increment_control:.3f}"  
         self.file_log.write(log_line)
         self.file_log.write("\n")
 
