@@ -24,6 +24,9 @@ pip install -r requirements.txt
 python3 src/main.py --team-color blue --team-side left --immediate-start --port 5001 --n_robots 3
 ```
 
+## Para debug
+
+Para debugar, basta incluir como argumento ```--debug``` tanto quando for executar o MainSystem quanto o ALP-Winners. Por enquanto, as unicas informações que o sistema entrega no modo de debug é o tempo do loop.
 
 > ### Importante!!
 >
