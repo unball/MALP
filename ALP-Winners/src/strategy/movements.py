@@ -194,11 +194,3 @@ def intercept(rr, rb, direction, rg, vb, vrref=0.5, arref=1.4):
 
     # else:
     #     return False
-
-def doSquareTest(point1, point2, point3, point4):
-    #ir para ponto 1
-    #ir para ponto 2
-    #ir para ponto 3
-    #ir para ponto 4
-
-    return

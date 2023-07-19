@@ -58,9 +58,7 @@ class World:
         self.allyGoals = 0
         self.enemyGoals = 0
         self.updateCount = 0
-        self.enableManualControl = False
-        self.manualControlSpeedV = 0
-        self.manualControlSpeedW = 0
+        self.checkBatteries = False
 
     def update(self, message):
         if self.team_yellow: 

@@ -22,8 +22,6 @@ class DebugHLC(ParamsPattern, State):
       "manualControlSpeedV": 0,
       "manualControlSpeedW": 0,
       "enableManualControl": False,
-      "manualControlSpeedV" : 0,
-      "manualControlSpeedW" : 0,
       "selectedField": "UVF",
       "selectableFinalPoint": False,
       "runVision": True,
@@ -164,6 +162,11 @@ class DebugHLC(ParamsPattern, State):
     dt = time.time()-self.t
     self.t = time.time()
     
+    #Atualiza o mundo com a nova funcionalidade de enableManualControl, checar baterias
+    if self.getParam("enableManualControl"):
+      self.world.checkBatteries = True
+    else:
+      self.world.checkBatteries = False
 
     # Atualiza o mundo com a visão
     if self.getParam("runVision"):
@@ -180,15 +183,11 @@ class DebugHLC(ParamsPattern, State):
     
     # Controle manual
     if self.getParam("enableManualControl"):
-      self.world.enableManualControl = True
-      self.world.manualControlSpeedV = self.getParam("manualControlSpeedV")
-      self.world.manualControlSpeedW = self.getParam("manualControlSpeedW")
       manualSpeed = SpeedPair(self.getParam("manualControlSpeedV"), self.getParam("manualControlSpeedW"))
       speeds = [manualSpeed, manualSpeed, manualSpeed]
 
     # Controle de alto nível
     else:
-      self.world.enableManualControl = False
       speeds = [r.actuate() for r in self.robots]
     
     # Obtém o target instantâneo

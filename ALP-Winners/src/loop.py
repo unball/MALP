@@ -24,6 +24,7 @@ class Loop:
         static_entities=False,
         port=5001,
         n_robots=3,
+        debug=False
     ):
         # Instancia interface com o simulador
         #self.vss = VSS(team_yellow=team_yellow)
@@ -44,6 +45,7 @@ class Loop:
         self.radio = SerialRadio()
         self.execute = False
         self.t0 = time.time()
+        self.debug= debug
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
@@ -58,7 +60,8 @@ class Loop:
     def loop(self):
         if self.world.updateCount == self.lastupdatecount: return
         
-        print((time.time()-self.t0)*1000)
+        if(self.debug): print((time.time()-self.t0)*1000)
+
         self.t0 = time.time()
         
         self.lastupdatecount = self.world.updateCount
