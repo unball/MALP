@@ -24,9 +24,6 @@ pip install -r requirements.txt
 python3 src/main.py --port 5001
 ```
 
-## Para debug
-
-Para debugar, basta incluir como argumento ```--debug``` tanto quando for executar o MainSystem quanto o ALP-Winners. Por enquanto, as unicas informações que o sistema entrega no modo de debug é o tempo do loop.
 
 > ### Importante!!
 >

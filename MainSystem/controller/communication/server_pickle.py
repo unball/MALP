@@ -3,7 +3,7 @@ import time
 import socket
 
 class ServerPickle:
-    def __init__(self, port, debug):
+    def __init__(self, port):
 
         self.host = socket.gethostname()
         self.port = port
@@ -13,8 +13,6 @@ class ServerPickle:
         psocket.listen(2)
         self.conn, self.address = psocket.accept()  
         print("Connection from: " + str(self.address))
-
-        self.debug = debug
         
         self.t0 = time.time()
         
