@@ -65,18 +65,7 @@ class Vision(ABC):
         for i in range(self._world.n_robots)
       },
       "running": self._world.running,
-      "check_batteries": self._world.checkBatteries,
-      "control_params":{
-        "kw": self._world.robots[0].controlSystem.getParam("kw"),
-        "kp": self._world.robots[0].controlSystem.getParam("kp"),
-        "L": self._world.robots[0].controlSystem.getParam("L"),
-        "amax": .12*self._world.robots[0].controlSystem.g,
-        "vmax": self._world.robots[0].controlSystem.getParam("vmax"),
-        "motorangaccelmax": self._world.robots[0].controlSystem.getParam("motorangaccelmax"),
-        "r": self._world.robots[0].controlSystem.getParam("r"),
-        "maxangerror": self._world.robots[0].controlSystem.getParam("maxangerror"),
-        "tau": self._world.robots[0].controlSystem.getParam("tau")
-      }
+      "check_batteries": self._world.checkBatteries
     }
 
     self.server_pickle.send(message)
