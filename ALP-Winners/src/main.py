@@ -26,7 +26,7 @@ loop = Loop(
     immediate_start=True,
     static_entities=False,
     port=args.port,
-    n_robots=3,
+    n_robots=3
 )
 
 loop.run()
