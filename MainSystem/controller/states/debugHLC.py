@@ -163,7 +163,6 @@ class DebugHLC(ParamsPattern, State):
     # Computa o tempo desde o último loop e salva
     dt = time.time()-self.t
     self.t = time.time()
-    
 
     # Atualiza o mundo com a visão
     if self.getParam("runVision"):
@@ -180,7 +179,7 @@ class DebugHLC(ParamsPattern, State):
     
     # Controle manual
     if self.getParam("enableManualControl"):
-      self.world.enableManualControl = True
+      self.world.checkBatteries = True
       self.world.manualControlSpeedV = self.getParam("manualControlSpeedV")
       self.world.manualControlSpeedW = self.getParam("manualControlSpeedW")
       manualSpeed = SpeedPair(self.getParam("manualControlSpeedV"), self.getParam("manualControlSpeedW"))
@@ -188,7 +187,7 @@ class DebugHLC(ParamsPattern, State):
 
     # Controle de alto nível
     else:
-      self.world.enableManualControl = False
+      self.world.checkBatteries = False
       speeds = [r.actuate() for r in self.robots]
     
     # Obtém o target instantâneo
