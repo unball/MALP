@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import time
 import numpy as np
-from controller.communication.server_pickle import ServerPickle
+from controller.vision.server_pickle import ServerPickle
 from controller.vision.cameras import CameraHandler
 from controller.vision.visionMessage import VisionMessage
 

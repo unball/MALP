@@ -1,6 +1,5 @@
 from abc import ABC, abstractmethod
 from tools import speeds2motors, deadzone, sat
-from control.motorControl import MotorControl
 import numpy as np
 import time
 
@@ -10,35 +9,32 @@ class Control(ABC):
         ABC.__init__(self)
 
         self.world = world
-        self.motor_vr_control = MotorControl(3, 0.2 , 0.05, 32)
-        self.motor_vl_control = MotorControl(3, 0.2, 0.05, 32)
-        # self.motor_vr_control = MotorControl(1, 1, 3, 32)
-        # self.motor_vl_control = MotorControl(1, 1, 3, 32)
-
-        self.last_w = 0
 
     @abstractmethod
     def output(self, robot):
         pass
 
-    def actuateNoControl(self, robot):
+    def actuate(self, robot):
         if not robot.on:
             return (0, 0)
 
         v, w = self.output(robot)
-        # v = 0.1 * np.sign(np.sin(2*np.pi*0.5*time.time()))
-        # w = 0
         robot.lastControlLinVel = v
         
         vr, vl = speeds2motors(v, w)
-        
-        vr = 3*int(sat(vr * 127 / 110, 127))
-        vl = 3*int(sat(vl * 127 / 110, 127))
+
+        vr = int(deadzone(sat(vr, 255), 32, -32))
+        vl = int(deadzone(sat(vl, 255), 32, -32))
+
+        # print(
+        #     f"ur: {ur}\ter: {vr - vision_vr}, vr: {vr}, vision_vr: {vision_vr}")
+        # print(
+        #     f"ul: {ul}\tel: {vl - vision_vl}, vl: {vl}, vision_vl: {vision_vl}")
+        # print(
+        #     f"ur: {ur}\tev: {v - robot.v_signed}, v: {v}, vision_v: {robot.v_signed}")
+        # print(
+        #     f"ul: {ul}\tew: {w - vision_w}, w: {w}, vision_w: {vision_w}")
         
         return vr, vl
-
-    def actuate(self, robot):
-        if not robot.on:
-            return (0, 0)
 
 
