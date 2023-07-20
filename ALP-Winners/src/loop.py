@@ -45,6 +45,8 @@ class Loop:
         self.execute = False
         self.t0 = time.time()
 
+        self.increment_control = 0
+
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
         if self.draw_uvf:
