@@ -17,8 +17,7 @@ class ServerPickle:
         self.t0 = time.time()
         
     def send(self, data):
-
-        if(self.debug): print(1000*(time.time()-self.t0))
+        print(1000*(time.time()-self.t0))
         self.t0 = time.time()
         
         message = pickle.dumps(data,-1)

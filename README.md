@@ -21,7 +21,7 @@ pip install -r requirements.txt
 
 4. No terminal 2, mover para o diretório ALP-Winners e executar com:
 ```
-python3 src/main.py --port 5001
+python3 src/main.py --team-color blue --team-side left --immediate-start --port 5001 --n_robots 3
 ```
 
 
