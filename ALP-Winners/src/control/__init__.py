@@ -13,13 +13,11 @@ class Control(ABC):
     def output(self, robot):
         pass
 
-    def actuate(self, robot, increment_control):
+    def actuate(self, robot):
         if not robot.on:
             return (0, 0)
 
-        # v, w = self.output(robot)
-        v = 0
-        w = increment_control
+        v, w = self.output(robot)
         robot.lastControlLinVel = v
         
         vr, vl = speeds2motors(v, w)
