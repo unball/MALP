@@ -61,7 +61,7 @@ class World:
         self.enableManualControl = False
         self.manualControlSpeedV = 0
         self.manualControlSpeedW = 0
-
+        
     def update(self, message):
         if self.team_yellow: 
             yellow = self.team
@@ -93,7 +93,7 @@ class World:
             robot_id+=1
        
         self.ball.update(message["ball"]["pos_x"], message["ball"]["pos_y"], message["ball"]["vel_x"], message["ball"]["vel_y"])
-        self.checkBatteries = message["check_batteries"]
+        self.enableManualControl = message["check_batteries"]
 
         self.updateCount += 1
 
