@@ -8,7 +8,7 @@ from controller.vision.visionMessage import VisionMessage
 class Vision(ABC):
   """Classe que define as interfaces que qualquer sistema de visão deve ter no sistema."""
   
-  def __init__(self, world, port, file_log):
+  def __init__(self, world, port):
     super().__init__()
     
     self.cameraHandler = CameraHandler()
@@ -21,10 +21,6 @@ class Vision(ABC):
     self.lastCandidateUse = 0
   
     self.server_pickle = ServerPickle(port)
-
-    self.file_log = file_log
-    self.increment_time_control = 0
-  
 
   @abstractmethod
   def process(self, frame):
@@ -75,14 +71,6 @@ class Vision(ABC):
     # message.append(self._world.manualControlSpeedV)
     # message.append(self._world.manualControlSpeedW)
 
-
-    # Salvar tempo e inst_w no arquivo (usar robo 0)
-
-    log_line = f"{self._world.robots[0].inst_w}"  
-    self.file_log.write(log_line)
-    self.file_log.write("\n")
-
-    self.increment_time_control += (time.time()-self.t0)*1000
 
     self.server_pickle.send(message)
 

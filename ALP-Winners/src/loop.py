@@ -24,8 +24,6 @@ class Loop:
         static_entities=False,
         port=5001,
         n_robots=3,
-        file_log="loop.log"
-
     ):
         # Instancia interface com o simulador
         #self.vss = VSS(team_yellow=team_yellow)
@@ -46,10 +44,6 @@ class Loop:
         self.radio = SerialRadio()
         self.execute = False
         self.t0 = time.time()
-
-        self.increment_control = 0
-        self.file_log = file_log
-        self.increment_time_control = 0
 
         # Interface gráfica para mostrar campos
         self.draw_uvf = draw_uvf
