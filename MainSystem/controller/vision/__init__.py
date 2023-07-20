@@ -67,6 +67,10 @@ class Vision(ABC):
       "running": self._world.running,
       "check_batteries": self._world.checkBatteries
     }
+    # TODO: acrescentar:
+    # message.append(self._world.manualControlSpeedV)
+    # message.append(self._world.manualControlSpeedW)
+
 
     self.server_pickle.send(message)
 
