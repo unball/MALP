@@ -11,27 +11,21 @@ A visão do MainSystem se comunica com o ALP-Winners utilizando sockets. ALP-GUI
 pip install -r requirements.txt
 ```
 
-2. Abrir dois terminais para execução simultânea do MainSystem e ALP-Winners
+2. Digital no termianl 
 
-3. No terminal 1, mover para o diretório MainSystem e executar com:
-```
-./main.py --port 5001 --n_robots 3
+`./run.sh`
 
-```
+Isso irá executar o sistema com a configuração padrão de porta `5001`. Caso haja algum problema com essa porta, é possível executar o MALP com o comando
 
-4. No terminal 2, mover para o diretório ALP-Winners e executar com:
-```
-python3 src/main.py --port 5001
-```
+`./run.sh 5002`
 
-## Para debug
-
-Para debugar, basta incluir como argumento ```--debug``` tanto quando for executar o MainSystem quanto o ALP-Winners. Por enquanto, as unicas informações que o sistema entrega no modo de debug é o tempo do loop.
+Ou com qualquer outra porta que desejar. 
 
 > ### Importante!!
 >
-> - Executar os comandos do MainSystem antes de executar os do ALP-Winners para estabelecer a comunicação entre os sistemas
-> - Observar se a porta 5001 está sendo utilizada por outra aplicação. Caso esteja em uso, basta trocar para 5002, 5003, e assim por diante. O conflito dessas portas costuma ocorrer quando houve algum erro no MALP
+> - A interface gráfica do MainSystem não é finalizada quando o bash run.sh é finalizado no terminal
+> - Caso queira fazer debug usando prints, é recomendado colocar no print o nome do sistema proveniente ou executar os sistemas manualmente em terminais separados
+> - Caso queira usar outros argumentos antes de executar, basta alterar o arquivo run.sh na linha 10
 
 ## Comunicação MALP com robô
 
