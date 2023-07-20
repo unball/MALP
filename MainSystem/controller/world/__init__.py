@@ -44,7 +44,7 @@ class World(ParamsPattern):
     self.n_robots = n_robots
     self.fieldSide = Field.RIGHT
     self.running = False
-    self.enableManualControl = False
+    self.checkBatteries = False
     self.manualControlSpeedV = 0
     self.manualControlSpeedW = 0
     self.mus = [0.07, 0.07, 0.12, 0.07, 0.07]
