@@ -71,7 +71,6 @@ class Vision(ABC):
     # message.append(self._world.manualControlSpeedV)
     # message.append(self._world.manualControlSpeedW)
 
-
     self.server_pickle.send(message)
 
     if self.usePastPositions is False:
