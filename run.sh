@@ -1,4 +1,3 @@
-#!/bin/zsh
 mkdir -p logs
 
 PORTA="5001"
