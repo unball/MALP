@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 import time
 import numpy as np
-from controller.communication.server_pickle import ServerPickle
+from controller.vision.server_pickle import ServerPickle
 from controller.vision.cameras import CameraHandler
 from controller.vision.visionMessage import VisionMessage
 
@@ -45,28 +45,26 @@ class Vision(ABC):
     data = self.process(frame)
     self._world.update(data)
     
-    message = {
-      "ball":{
-        "pos_x": self._world.ball.pos[0],
-        "pos_y": self._world.ball.pos[1],
-        "vel_x": self._world.ball.vel[0],
-        "vel_y": self._world.ball.vel[1]
-      },
-      "n_robots": self._world.n_robots,
-      "robots":{
-        i: {
-          "pos_x": self._world.robots[i].inst_x,
-          "pos_y": self._world.robots[i].inst_y,
-          "th": self._world.robots[i].raw_th,
-          "vel_x": self._world.robots[i].inst_vx,
-          "vel_y": self._world.robots[i].inst_vy,
-          "w": self._world.robots[i].inst_w
-        }
-        for i in range(self._world.n_robots)
-      },
-      "running": self._world.running,
-      "check_batteries": self._world.checkBatteries
-    }
+    message = []
+    message.append(self._world.ball.pos[0])
+    message.append(self._world.ball.pos[1])
+    message.append(self._world.ball.vel[0])
+    message.append(self._world.ball.vel[1])
+    message.append(self._world.n_robots)
+    
+    for i in range(self._world.n_robots):
+      message.append(self._world.robots[i].inst_x)
+      message.append(self._world.robots[i].inst_y)
+      message.append(self._world.robots[i].raw_th)
+      message.append(self._world.robots[i].inst_vx)
+      message.append(self._world.robots[i].inst_vy)
+      message.append(self._world.robots[i].inst_w)
+    
+    message.append(self._world.running)
+    message.append(self._world.enableManualControl)
+    message.append(self._world.manualControlSpeedV)
+    message.append(self._world.manualControlSpeedW)
+
 
     self.server_pickle.send(message)
 
