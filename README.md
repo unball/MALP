@@ -11,7 +11,7 @@ A visão do MainSystem se comunica com o ALP-Winners utilizando sockets. ALP-GUI
 pip install -r requirements.txt
 ```
 
-2. Digital no termianl 
+2. Digitar no terminal 
 
 `./run.sh`
 
