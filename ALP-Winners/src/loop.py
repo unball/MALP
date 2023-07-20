@@ -58,7 +58,8 @@ class Loop:
     def loop(self):
         if self.world.updateCount == self.lastupdatecount: return
         
-        print((time.time()-self.t0)*1000)
+        if(self.debug): print((time.time()-self.t0)*1000)
+
         self.t0 = time.time()
         
         self.lastupdatecount = self.world.updateCount
@@ -67,8 +68,8 @@ class Loop:
         self.strategy.update()
 
         # Executa o controle
-        control_output = [robot.entity.control.actuateNoControl(robot) for robot in self.world.team if robot.entity is not None]
-                
+        control_output = [robot.entity.control.actuate(robot) for robot in self.world.team if robot.entity is not None]
+
         if self.execute:
             for robot in self.world.raw_team: robot.turnOn()   
             self.radio.send(control_output)
