@@ -58,7 +58,7 @@ class World:
         self.allyGoals = 0
         self.enemyGoals = 0
         self.updateCount = 0
-        self.enableManualControl = False
+        self.checkBatteries = False
         self.manualControlSpeedV = 0
         self.manualControlSpeedW = 0
         
@@ -93,7 +93,7 @@ class World:
             robot_id+=1
        
         self.ball.update(message["ball"]["pos_x"], message["ball"]["pos_y"], message["ball"]["vel_x"], message["ball"]["vel_y"])
-        self.enableManualControl = message["check_batteries"]
+        self.checkBatteries = message["check_batteries"]
 
         self.updateCount += 1
 
