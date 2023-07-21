@@ -75,7 +75,7 @@ class UFC_Simple(Control):
     v3 = self.kp * norm(robot.pos, robot.field.Pb) ** 2 + robot.vref
 
     v  = min(v1, v2, v3)
-    if self.world.enableManualControl:
+    if self.world.checkBatteries:
       v = self.world.manualControlSpeedV
       # w = self.world.manualControlSpeedW
 
