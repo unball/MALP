@@ -20,29 +20,10 @@ class UFC_Simple(Control):
     self.kv = 10
     self.ki = 10
     self.kd = 1
-    self.integral = 0
-    self.vbias = 0.2
 
-    self.sd_min = 1e-4
-    self.sd_max = 0.5
 
-    self.lastth = [0,0,0,0]
-    self.lastdth = 0
+    self.lastth = 0
     self.interval = Interval(filter=False, initial_dt=0.016)
-    self.lastnorm = 0
-    self.enableInjection = enableInjection
-    self.lastwref = 0
-    self.lastvref = 0
-    self.integrateinjection = 0
-    self.loadedInjection = 0
-    self.lastPb = np.array([0,0])
-    self.vPb = np.array([0,0])
-
-    self.eth = 0
-
-  @property
-  def error(self):
-    return self.eth
 
   def output(self, robot):
     if robot.field is None: return 0,0
@@ -55,29 +36,33 @@ class UFC_Simple(Control):
     # Tempo desde a última atuação
     dt = self.interval.getInterval()
 
-    # Calcula a integral e satura (descobrir o quanto saturar, tirei esse 64 rad/s)
-    self.integral = sat(self.integral + eth * dt, 64)
+    # Derivada da referência
+    dth = sat(angError(th, self.lastth) / dt, 15)
 
-    # Calcula a derivada
-    # self.dth = eth/dt
-    # print("dth: ", self.dth)
+    # Computa phi
+    phi = robot.field.phi(robot.pose)
 
-    # Velocidade angular com controle PID
-    w = self.kp * eth + self.ki*self.integral# + self.kd*self.dth
+    # Computa gamma
+    gamma = robot.field.gamma(dth, robot.velmod, phi)
+
+    # Computa omega
+    omega = self.kw * np.sign(eth) * np.sqrt(np.abs(eth)) + gamma
 
     # Velocidade limite de deslizamento
-    v1 = self.amax / np.abs(w)
+    if phi != 0: v1 = (-np.abs(omega) + np.sqrt(omega**2 + 4 * np.abs(phi) * self.amax)) / (2*np.abs(phi))
+    if phi == 0: v1 = self.amax / np.abs(omega)
 
     # Velocidade limite das rodas
-    v2 = self.vmax - self.L * np.abs(w) / 2
+    v2 = (2*self.vmax - self.L * np.abs(omega)) / (2 + self.L * np.abs(phi))
 
     # Velocidade limite de aproximação
     v3 = self.kp * norm(robot.pos, robot.field.Pb) ** 2 + robot.vref
 
-    v  = min(v1, v2, v3)
-    if self.world.checkBatteries:
-      v = self.world.manualControlSpeedV
-      # w = self.world.manualControlSpeedW
+    # Velocidade linear é menor de todas
+    v  = max(min(v1, v2, v3), 0)
+
+    # Lei de controle da velocidade angular
+    w = v * phi + omega
 
     if robot.id == 0:
       print(f"ref(th): {(th * 180 / np.pi):.0f}º")
@@ -88,14 +73,8 @@ class UFC_Simple(Control):
       print(f", w: {robot.w:.2f}")
     
     # Atualiza a última referência
-    self.lastth = self.lastth[1:] + [th]
+    self.lastth = th
     robot.lastControlLinVel = v
-
-    # Atualiza variáveis de estado
-    self.eth = eth
-    self.lastwref = w
-    self.lastvref = v
 
     if robot.spin == 0: return (v * robot.direction, w)
     else: return (0, 60 * robot.spin)
-
