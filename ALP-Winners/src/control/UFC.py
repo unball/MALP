@@ -7,7 +7,7 @@ import time
 
 class UFC_Simple(Control):
   """Controle unificado para o Univector Field, utiliza o ângulo definido pelo campo como referência \\(\\theta_d\\)."""
-  def __init__(self, world, kw=4, kp=20, mu=0.3, vmax=1.5, L=L, enableInjection=False):
+  def __init__(self, world, kw=4, kp=20, mu=0.3, vmax=1.0, L=L, enableInjection=False):
     Control.__init__(self, world)
 
     self.g = 9.8
@@ -75,8 +75,8 @@ class UFC_Simple(Control):
     v3 = self.kp * norm(robot.pos, robot.field.Pb) ** 2 + robot.vref
 
     v  = min(v1, v2, v3)
-    if self.world.checkBatteries:
-      v = self.world.manualControlSpeedV
+    # if self.world.checkBatteries:
+    #   v = self.world.manualControlSpeedV
       # w = self.world.manualControlSpeedW
 
     if robot.id == 0:
