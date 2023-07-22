@@ -22,8 +22,8 @@ class Control(ABC):
         
         vr, vl = speeds2motors(v, w)
 
-        vr = int(deadzone(sat(vr, 255), 32, -32))
-        vl = int(deadzone(sat(vl, 255), 32, -32))
+        vr = int(deadzone(sat(vr, 223), 32, -32))
+        vl = int(deadzone(sat(vl, 223), 32, -32))
 
         # print(
         #     f"ur: {ur}\ter: {vr - vision_vr}, vr: {vr}, vision_vr: {vision_vr}")
