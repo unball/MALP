@@ -169,45 +169,45 @@ class DebugHLC(ParamsPattern, State):
       self._controller.visionSystem.update()
 
     # Condições para rodar a estratégia
-    if self.runStrategyCondition():
-      self.strategy.run()
+    # if self.runStrategyCondition():
+    #   self.strategy.run()
 
     # Define um controle
-    self.robots[0].controlSystem = self.HLCs.get()
-    self.robots[1].controlSystem = self.HLCs.get()
-    self.robots[2].controlSystem = self.HLCs.get()
+    # self.robots[0].controlSystem = self.HLCs.get()
+    # self.robots[1].controlSystem = self.HLCs.get()
+    # self.robots[2].controlSystem = self.HLCs.get()
     
     # Controle manual
     if self.getParam("enableManualControl"):
       self.world.checkBatteries = True
       self.world.manualControlSpeedV = self.getParam("manualControlSpeedV")
       self.world.manualControlSpeedW = self.getParam("manualControlSpeedW")
-      manualSpeed = SpeedPair(self.getParam("manualControlSpeedV"), self.getParam("manualControlSpeedW"))
-      speeds = [manualSpeed, manualSpeed, manualSpeed]
 
     # Controle de alto nível
     else:
       self.world.checkBatteries = False
-      speeds = [r.actuate() for r in self.robots]
+      
+    manualSpeed = SpeedPair(self.getParam("manualControlSpeedV"), self.getParam("manualControlSpeedW"))
+    speeds = [manualSpeed, manualSpeed, manualSpeed]
     
     # Obtém o target instantâneo
-    reference = self.robots[0].field.F(self.robots[0].pose)
+    # reference = self.robots[0].field.F(self.robots[0].pose)
 
     # Adiciona dados de debug para gráficos e para salvar
-    self.appendDebugData(reference, speeds, dt)
+    self.appendDebugData(0, speeds, dt)
 
-    if self.world.running:
-      # Envia mensagem ao robô
-      if self.getParam("runVision"): self._controller.communicationSystems.get().send(speeds)
+    # if self.world.running:
+    #   # Envia mensagem ao robô
+    #   if self.getParam("runVision"): self._controller.communicationSystems.get().send(speeds)
 
-      # Simula nova posição
-      else:
-        for robot, speed in zip(self.robots, speeds):
-          simulate(robot, speed.v, -speed.w, dt=dt)
-        #simulateBall(self.world.ball)
+    #   # Simula nova posição
+    #   else:
+    #     for robot, speed in zip(self.robots, speeds):
+    #       simulate(robot, speed.v, -speed.w, dt=dt)
+    #     simulateBall(self.world.ball)
     
     # Envia zero para os robôs
-    else: self._controller.communicationSystems.get().sendZero()
+    # else: self._controller.communicationSystems.get().sendZero()
 
     # Garante que o tempo de loop é de no mínimo 16ms
     time.sleep(max(0.011-(time.time()-self.t), 0))
