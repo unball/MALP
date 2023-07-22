@@ -78,7 +78,7 @@ class Element(object):
     return info
 
   def update(self, x=0, y=0, th=0):
-    self.raw_update(x * self.world.fieldSide, y, th * self.world.fieldSide)
+    self.raw_update(x, y, th)
 
   def raw_update(self, x=0, y=0, th=0):
     """Atualiza a posição do objeto, atualizando também o valor das posições anteriores."""
@@ -132,7 +132,7 @@ class Element(object):
   def setTh(self, th):
     """Atualiza o ângulo do objeto diretamente (sem afetar o ângulo anterior)."""
     thVec = unit(th)
-    self.inst_th = angl((-thVec[0] * self.world.fieldSide, thVec[1]))
+    self.inst_th = angl((-thVec[0], thVec[1]))
 
   @property
   def vel(self):
@@ -145,7 +145,7 @@ class Element(object):
 
   @property
   def vx(self):
-    return self.inst_vx * self.world.fieldSide
+    return self.inst_vx
 
   @property
   def vy(self):
@@ -154,7 +154,7 @@ class Element(object):
   @property
   def acc(self):
     """Retorna a aceleração do objeto no formato de lista: \\([a_x, a_y]\\)"""
-    return [self.inst_ax * self.world.fieldSide, self.inst_ay]
+    return [self.inst_ax, self.inst_ay]
 
   @property
   def raw_acc(self):
@@ -173,7 +173,7 @@ class Element(object):
   @property
   def velang(self):
     """Retorna o ângulo do vetor velocidade do objeto: \\(\\text{arctan2}(v_y, v_x)\\)"""
-    return np.arctan2(self.inst_vy, self.inst_vx * self.world.fieldSide)
+    return np.arctan2(self.inst_vy, self.inst_vx)
 
   @property
   def raw_velang(self):
@@ -229,7 +229,7 @@ class Element(object):
   @property
   def x(self):
     """Retorna a posição \\(x\\) atual do objeto"""
-    return self.inst_x * self.world.fieldSide #+ self.timeStep * self.vx * self.world.dt
+    return self.inst_x #+ self.timeStep * self.vx * self.world.dt
 
   @property
   def raw_x(self):

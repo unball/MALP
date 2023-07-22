@@ -57,7 +57,7 @@ class Vision(ABC):
         i: {
           "pos_x": self._world.robots[i].inst_x,
           "pos_y": self._world.robots[i].inst_y,
-          "th": self._world.robots[i].raw_th,
+          "th": self._world.robots[i].inst_th,
           "vel_x": self._world.robots[i].inst_vx,
           "vel_y": self._world.robots[i].inst_vy,
           "w": self._world.robots[i].inst_w,
@@ -80,7 +80,6 @@ class Vision(ABC):
       "manualControlSpeedV": self._world.manualControlSpeedV,
       "manualControlSpeedW": self._world.manualControlSpeedW
     }
-
 
     self.server_pickle.send(message)
 
