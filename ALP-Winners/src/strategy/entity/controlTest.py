@@ -46,8 +46,8 @@ class ControlTester(Entity):
     def fieldDecider(self):
         rr = np.array(self.robot.pos)
         
-        if rr[0] > 0.4:
-            self.robot.field = DirectionalField(np.pi)
-        if  rr[0] < -0.4:
-            self.robot.field = DirectionalField(0)
+        if rr[0] > 0.65:
+            self.robot.field = DirectionalField(np.pi, Pb=([-0.65,rr[1],np.pi]))
+        if  rr[0] < -0.65:
+            self.robot.field = DirectionalField(0, Pb=([0.65,rr[1],0]))
 
