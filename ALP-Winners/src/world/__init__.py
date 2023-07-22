@@ -94,6 +94,8 @@ class World:
        
         self.ball.update(message["ball"]["pos_x"], message["ball"]["pos_y"], message["ball"]["vel_x"], message["ball"]["vel_y"])
         self.checkBatteries = message["check_batteries"]
+        self.manualControlSpeedV = message["manualControlSpeedV"]
+        self.manualControlSpeedW = message["manualControlSpeedW"]
 
         self.updateCount += 1
 
