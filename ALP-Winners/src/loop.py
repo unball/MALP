@@ -73,9 +73,11 @@ class Loop:
         if self.execute:
             for robot in self.world.raw_team: robot.turnOn()   
             self.radio.send(control_output)
+            self.busyLoop()
         else:
             self.radio.send([(0,0) for robot in self.world.team])
             for robot in self.world.raw_team: robot.turnOff()
+            self.busyLoop()
 
         # Desenha no ALP-GUI
         self.draw()
@@ -104,8 +106,11 @@ class Loop:
         
         while self.running:
             # Executa o loop de visão e referee até dar o tempo de executar o resto
-            self.busyLoop()
-            while time.time() - t0 < self.loopTime:
+            # self.busyLoop()
+            # while time.time() - t0 < self.loopTime:
+            #     self.busyLoop()
+
+            if(self.world.updateCount == 0):
                 self.busyLoop()
                 
             # Tempo inicial do loop
