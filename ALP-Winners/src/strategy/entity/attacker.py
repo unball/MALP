@@ -196,14 +196,15 @@ class Attacker(Entity):
         #        if np.abs(ang(unit(angl(robot.pos-rr)), unit(self.robot.th))) < 30 * np.pi / 180:
         #         self.robot.field = AvoidanceField(self.robot.field, AvoidCircle(robot.pos, 0.08), borderSize=0.20)
 
-        # if self.slave and self.attackState == 0:
-        #     print("I {0} am slave".format(self.robot.id))
-        #     for robot in [r for r in otherAllies if r.entity.__class__.__name__ ==  "Attacker"]:
-        #         self.robot.field = AvoidanceField(self.robot.field, AvoidCircle(robot.pos, 0.08), borderSize=0.20)
+        # Campo repulsivo pro midfielder não atrapalhar o atacante
+        if self.slave and self.attackState == 0:
+            print("I {0} am slave".format(self.robot.id))
+            for robot in [r for r in otherAllies if r.entity.__class__.__name__ ==  "Attacker"]:
+                self.robot.field = AvoidanceField(self.robot.field, AvoidCircle(robot.pos, 0.08), borderSize=0.20)
 
 
         # Campo para evitar outro robô, (só se não estiver alinhado)
-        #if self.attackState == 0:
+        # if self.attackState == 0:
         #    for robot in otherAllies + enemies:
         #        self.robot.field = AvoidanceField(self.robot.field, AvoidCircle(robot.pos, 0.08), borderSize=0.20)
 
