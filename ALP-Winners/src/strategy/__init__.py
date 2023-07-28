@@ -136,10 +136,10 @@ class MainStrategy(Strategy):
         return formation, toDecide
 
     def update(self):
-        if not self.static_entities:
-            self.world.team[2].updateEntity(Attacker)
+        if self.static_entities:
+            self.world.team[2].updateEntity(GoalKeeper)
             self.world.team[1].updateEntity(Attacker)
-            self.world.team[0].updateEntity(GoalKeeper)
+            self.world.team[0].updateEntity(Attacker)
 
         elif self.world.checkBatteries:
             self.world.team[2].updateEntity(Attacker)
