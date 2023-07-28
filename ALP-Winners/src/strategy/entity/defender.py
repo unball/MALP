@@ -8,6 +8,7 @@ from tools import angError, howFrontBall, howPerpBall, ang, norml, norm
 from tools.interval import Interval
 from control.UFC import UFC_Simple
 from control.defender import DefenderControl
+from control.UFC import UFC_Simple
 from client.gui import clientProvider
 import numpy as np
 import math
@@ -16,7 +17,8 @@ class Defender(Entity):
     def __init__(self, world, robot, side=1):
         super().__init__(world, robot)
 
-        self._control = DefenderControl(self.world)
+        # self._control = DefenderControl(self.world)
+        self._control = UFC_Simple(self.world)
     @property
     def control(self):
         return self._control
