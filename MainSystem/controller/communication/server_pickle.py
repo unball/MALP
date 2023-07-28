@@ -18,7 +18,7 @@ class ServerPickle:
         
     def send(self, data):
 
-        print("envio msg MS:",1000*(time.time()-self.t0))
+        # print("envio msg MS:",1000*(time.time()-self.t0))
         self.t0 = time.time()
         
         message = pickle.dumps(data,-1)

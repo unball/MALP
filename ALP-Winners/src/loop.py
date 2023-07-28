@@ -58,7 +58,7 @@ class Loop:
     def loop(self):
         if self.world.updateCount == self.lastupdatecount: return
         
-        print("loop ALP:",(time.time()-self.t0)*1000)
+        # print("loop ALP:",(time.time()-self.t0)*1000)
 
         self.t0 = time.time()
         

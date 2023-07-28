@@ -16,6 +16,13 @@ class Control(ABC):
     def actuate(self, robot):
         if not robot.on:
             return (0, 0)
+        
+        # if robot.id == 0:
+        #     return (1,1)
+        # elif robot.id == 1:
+        #     return (2,2)
+        # elif robot.id == 2:
+        #     return (3,3)
 
         v, w = self.output(robot)
         robot.lastControlLinVel = v

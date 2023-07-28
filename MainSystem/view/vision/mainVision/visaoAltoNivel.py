@@ -38,7 +38,7 @@ class VisaoAltoNivel(FrameRenderer):
     img_filtered = cv2.bitwise_and(img_warpped, img_warpped, mask=fgMask)
     t0 = time.time()
     message = self.__visionSystem.process(frame)
-    print("loop da visao:", (time.time()-t0)*1000)
+    # print("loop da visao:", (time.time()-t0)*1000)
     GLib.idle_add(self.updateRobotsInfo, message)
     
     Drawing.draw_field(self.__world, img_filtered)
