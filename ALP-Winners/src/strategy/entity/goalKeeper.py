@@ -66,7 +66,7 @@ class GoalKeeper(Entity):
         rb = np.array(self.world.ball.pos)
         vb = np.array(self.world.ball.v)
         rg = -np.array(self.world.field.goalPos)
-        rg[0] += 0.17
+        rg[0] += 0.10
     
          # Aplica o movimento
         self.robot.vref = 0
@@ -92,7 +92,7 @@ class GoalKeeper(Entity):
         rb = np.array(self.world.ball.pos)
         vb = np.array(self.world.ball.v)
         rg = -np.array(self.world.field.goalPos)
-        rg[0] += 0.17
+        rg[0] += 0.15
     
          # Aplica o movimento
         self.robot.vref = 0
@@ -100,7 +100,7 @@ class GoalKeeper(Entity):
         self.robot.setSpin(spinGoalKeeper(rb, rr, rg), timeOut = 0.1)
 
         Pb = goalkeep(rb, vb, rr, rg)
-        # print(Pb)
+        print(Pb)
         # print('isAlive:' , self.robot.isAlive())
         # print(f"angulo: {thr}")
         if self.state == "Stable":
@@ -124,7 +124,7 @@ class GoalKeeper(Entity):
 
         # self.robot.field = UVF(Pb, spiral=0.01)
         # self.robot.field = DirectionalField(Pb[2], Pb=Pb) if np.abs(rr[0]-Pb[0]) < 0.07 else UVF(Pb, spiral=0.01)
-        # print('estado do goleiro: ' + self.state)
+        print('estado do goleiro: ' + self.state)
         if self.state == "Stable":
             self.robot.field = DirectionalField(Pb[2], Pb=(rr[0], Pb[1], Pb[2]))
         elif self.state == "Unstable":
