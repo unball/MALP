@@ -7,7 +7,7 @@ import time
 
 class UFC_Simple(Control):
   """Controle unificado para o Univector Field, utiliza o ângulo definido pelo campo como referência \\(\\theta_d\\)."""
-  def __init__(self, world, kw=3, kp=10, mu=0.7, vmax=2.0, L=L, enableInjection=False):
+  def __init__(self, world, kw=4, kp=10, mu=0.7, vmax=6.0, L=L, enableInjection=False):
     Control.__init__(self, world)
 
     self.g = 9.8
@@ -65,11 +65,11 @@ class UFC_Simple(Control):
     # Lei de controle da velocidade angular
     w = v * phi + omega
 
-    # if robot.id == 0:
-    #   print("v escolhido: v",(np.argmin(vels)+1))
+    if robot.id == 0:
+      print("v escolhido: v",(np.argmin(vels)+1))
     #   print(f"ref(th): {(th * 180 / np.pi):.0f}º")
     #   print(f"erro(th): {(eth * 180 / np.pi):.0f}º")
-    #   print(f"vref: {v:.2f}", end='')
+      print(f"vref: {v:.2f}")
     #   print(f", wref: {w:.2f}")
     #   print(f"v: {robot.velmod:.2f}", end='')
     #   print(f", w: {robot.w:.2f}")
