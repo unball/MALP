@@ -59,7 +59,9 @@ class World:
         self.enemyGoals = 0
         self.updateCount = 0
         self.checkBatteries = False
-
+        self.manualControlSpeedV = 0
+        self.manualControlSpeedW = 0
+        
     def update(self, message):
         if self.team_yellow: 
             yellow = self.team
@@ -92,6 +94,8 @@ class World:
        
         self.ball.update(message["ball"]["pos_x"], message["ball"]["pos_y"], message["ball"]["vel_x"], message["ball"]["vel_y"])
         self.checkBatteries = message["check_batteries"]
+        self.manualControlSpeedV = message["manualControlSpeedV"]
+        self.manualControlSpeedW = message["manualControlSpeedW"]
 
         self.updateCount += 1
 

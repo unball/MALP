@@ -8,7 +8,7 @@ from controller.vision.visionMessage import VisionMessage
 class Vision(ABC):
   """Classe que define as interfaces que qualquer sistema de visão deve ter no sistema."""
   
-  def __init__(self, world, port, debug):
+  def __init__(self, world, port):
     super().__init__()
     
     self.cameraHandler = CameraHandler()
@@ -20,7 +20,7 @@ class Vision(ABC):
     self.usePastPositions = False
     self.lastCandidateUse = 0
   
-    self.server_pickle = ServerPickle(port, debug)
+    self.server_pickle = ServerPickle(port)
 
   @abstractmethod
   def process(self, frame):
@@ -57,15 +57,28 @@ class Vision(ABC):
         i: {
           "pos_x": self._world.robots[i].inst_x,
           "pos_y": self._world.robots[i].inst_y,
-          "th": self._world.robots[i].raw_th,
+          "th": self._world.robots[i].inst_th,
           "vel_x": self._world.robots[i].inst_vx,
           "vel_y": self._world.robots[i].inst_vy,
-          "w": self._world.robots[i].inst_w
+          "w": self._world.robots[i].inst_w,
+          "control_params":{
+            "kw": self._world.robots[i].controlSystem.getParam("kw"),
+            "kp": self._world.robots[i].controlSystem.getParam("kp"),
+            "L": self._world.robots[i].controlSystem.getParam("L"),
+            "amax": 0.12*self._world.robots[i].controlSystem.g,
+            "vmax": self._world.robots[i].controlSystem.getParam("vmax"),
+            "motorangaccelmax": self._world.robots[i].controlSystem.getParam("motorangaccelmax"),
+            "r": self._world.robots[i].controlSystem.getParam("r"),
+            "maxangerror": self._world.robots[i].controlSystem.getParam("maxangerror"),
+            "tau": self._world.robots[i].controlSystem.getParam("tau")
+          }
         }
         for i in range(self._world.n_robots)
       },
       "running": self._world.running,
-      "check_batteries": self._world.checkBatteries
+      "check_batteries": self._world.checkBatteries,
+      "manualControlSpeedV": self._world.manualControlSpeedV,
+      "manualControlSpeedW": self._world.manualControlSpeedW
     }
 
     self.server_pickle.send(message)

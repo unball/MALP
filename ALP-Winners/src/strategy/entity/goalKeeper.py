@@ -66,18 +66,19 @@ class GoalKeeper(Entity):
         rb = np.array(self.world.ball.pos)
         vb = np.array(self.world.ball.v)
         rg = -np.array(self.world.field.goalPos)
-        rg[0] += 0.17
+        rg[0] += 0.12
     
          # Aplica o movimento
         self.robot.vref = 0
 
         self.robot.setSpin(spinGoalKeeper(rb, rr, rg), timeOut = 0.1)
+        
+        self.setGoalKeeperControl()
 
         Pb = goalkeep(rb, vb, rr, rg)
         if np.abs(rr[0]-rg[0]) > 0.05:
             Pb = goalkeep(rb, vb, rr, rg)
             self.robot.field = UVF((rg[0], Pb[1], Pb[2]), radius=0.04)
-            # rg[0], Pb[1], Pb[2]
             print("Instável")
         else:
             print("Estável")
@@ -92,7 +93,7 @@ class GoalKeeper(Entity):
         rb = np.array(self.world.ball.pos)
         vb = np.array(self.world.ball.v)
         rg = -np.array(self.world.field.goalPos)
-        rg[0] += 0.17
+        rg[0] += 0.12
     
          # Aplica o movimento
         self.robot.vref = 0
@@ -105,6 +106,7 @@ class GoalKeeper(Entity):
         # print(f"angulo: {thr}")
         if self.state == "Stable":
             # if np.abs(rr[0]-rg[0]) > 0.05 or (np.abs(thr-1.5) > 2 or np.abs(thr-4.7) > 2):
+            # self.setGoalKeeperControl()
             if np.abs(rr[0]-rg[0]) > 0.07:
                 self.state = "Unstable"
         elif self.state == "Unstable":
@@ -114,13 +116,18 @@ class GoalKeeper(Entity):
                 # SETAR INSTABILIDADE CASO O ROBO ESTEJA VIRADO E FRENTE PRO GOL
                 
             # elif (np.abs(rr[0]-rg[0]) < 0.05) and (np.abs(thr-1.5) < 2 or np.abs(thr-4.7) < 2):
-            elif (np.abs(rr[0]-rg[0]) < 0.05):
+            elif (np.abs(rr[0]-rg[0]) < 0.04):
+                # self.setGoalKeeperControl()
                 self.state = "Stable"
         else:
-            # if (np.abs(rr[0]-rg[0]) < 0.05) and (np.abs(thr-1.5) < 2 or np.abs(thr-4.7) < 2):
-            if (np.abs(rr[0]-rg[0]) < 0.05):
-                self.state = "Stable"
-                self.setGoalKeeperControl()
+            # if (np.abs(rr[0]-rg[0]) < 0.05) and (np.abs(thr-1.5) < 2 or np.abs(thr-4.7) < 2): 
+            self.state = "Unstable"
+            # self.setGoalKeeperControl()
+
+            # if (np.abs(rr[0]-rg[0]) < 0.04):
+            #     self.state = "Stable"
+            #     self.setGoalKeeperControl()
+
 
         # self.robot.field = UVF(Pb, spiral=0.01)
         # self.robot.field = DirectionalField(Pb[2], Pb=Pb) if np.abs(rr[0]-Pb[0]) < 0.07 else UVF(Pb, spiral=0.01)
@@ -128,8 +135,10 @@ class GoalKeeper(Entity):
         if self.state == "Stable":
             self.robot.field = DirectionalField(Pb[2], Pb=(rr[0], Pb[1], Pb[2]))
         elif self.state == "Unstable":
-            # self.robot.field = UVF(Pb, radius=0.02)
-            self.robot.field = AttractiveField((rg[0], Pb[1], Pb[2]))
+            self.robot.field = UVF(Pb, radius=0.02)
+            # self.robot.field = AttractiveField((Pb[0], rg[1], Pb[2]))
+            # self.robot.field = UVF((rg[0], rg[1], Pb[2]), radius=0.04)
+
         elif self.state == "Far":
             self.robot.field = UVF(Pb, radius=0.04)
         #self.robot.field = DirectionalField(Pb[2], Pb=Pb)

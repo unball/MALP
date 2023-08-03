@@ -3,6 +3,7 @@ from .entity.attacker import Attacker
 from .entity.goalKeeper import GoalKeeper
 from .entity.defender import Defender
 from .entity.midfielder import Midfielder
+from .entity.controlTest import ControlTester
 #from client.protobuf.vssref_common_pb2 import Foul
 from client.referee import RefereeCommands
 from tools import sats, norml, unit, angl, angError, projectLine, howFrontBall, norm, bestWithHyst
@@ -136,9 +137,14 @@ class MainStrategy(Strategy):
 
     def update(self):
         if self.static_entities:
+            self.world.team[2].updateEntity(GoalKeeper)
+            self.world.team[1].updateEntity(Attacker)
+            self.world.team[0].updateEntity(Attacker)
+
+        elif self.world.checkBatteries:
             self.world.team[2].updateEntity(Attacker)
             self.world.team[1].updateEntity(Attacker)
-            self.world.team[0].updateEntity(GoalKeeper)
+            self.world.team[0].updateEntity(ControlTester)
 
         else:
             formation = self.formationDecider()

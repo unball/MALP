@@ -45,6 +45,8 @@ class World(ParamsPattern):
     self.fieldSide = Field.RIGHT
     self.running = False
     self.checkBatteries = False
+    self.manualControlSpeedV = 0
+    self.manualControlSpeedW = 0
     self.mus = [0.07, 0.07, 0.12, 0.07, 0.07]
     self.robots = [Robot(self, i, self.mus[i]) for i in range(self.n_robots)]
     self.enemyRobots = []
@@ -61,9 +63,9 @@ class World(ParamsPattern):
       if not allyPose[3]: continue
       
       # O ângulo do robô não pode variar de um loop para outro mais que 70% de pi/2, se isso ocorrer deve ser algum erro da visão
-      #if self.robots[i].poseDefined and np.arccos(np.cos(visionMessage.th[i]-self.robots[i].th)) > 0.5*np.pi/2:
-      #  theta = self.robots[i].th
-      #else:
+      # if self.robots[i].poseDefined and np.arccos(np.cos(allyPose[2]-self.robots[i].th)) > 0.49*np.pi/2:
+      #   theta = self.robots[i].th
+      # else:
       theta = allyPose[2]
       
       self.robots[i].raw_update(allyPose[0], allyPose[1], theta)
