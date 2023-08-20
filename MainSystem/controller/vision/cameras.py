@@ -5,6 +5,9 @@ from os import listdir
 
 from model.vision.camerasModel import CameraHandlerModel
 
+#from view.vision.camerasView import 
+
+
 class CameraHandler():
   """Classe que gerencia as câmeras do sistema permitindo rápida troca e retorno simples de frames"""
   def __init__(self):
@@ -20,9 +23,18 @@ class CameraHandler():
     self.__cap = None
     """Armazena o `VideoCapture` atual"""
     
+    self.__show_rotated = False
+    """variavel de rotação de camera"""
+    
+    
   def setScale(self, scale: float):
     """Altera o valor da escala usada no frame"""
     self.__model.frame_scale = scale
+    
+  def set_rotate_field(self, value: bool):
+    """Atualiza flag que indica se é para mostrar o campo rotacionado ou não"""
+
+    self.__show_rotated = value
     
   def getScale(self):
     """Obtém o valor da escala usada no frame"""
@@ -35,17 +47,32 @@ class CameraHandler():
     
   def getFrame(self):
     """Retorna um frame no formato numpy (height, width, depth) com base na câmera atualmente selecionada."""
+    
     try:
+      
+      
+          
+      
       if self.__model.current_camera == -1:
         time.sleep(0.001)
-        if self.__defaultFrame is None: return None
-        return CameraHandler.scaleFrame(self.__defaultFrame, self.__model.frame_scale)
+        if self.__defaultFrame is None: return None 
+        if self.__show_rotated:
+          frame = cv2.rotate(self.__defaultFrame, cv2.ROTATE_180)
+        else:
+          frame = self.__defaultFrame
+        return CameraHandler.scaleFrame(frame, self.__model.frame_scale)
+      
       
       if self.__cap is None:
         self.setCamera(self.__model.current_camera)
       
       if self.__cap is not None and self.__cap.isOpened():
         ret, frame = self.__cap.read()
+        if self.__show_rotated:
+          frame = cv2.rotate(frame, cv2.ROTATE_180)
+        
+        
+              
         if frame is None: 
           time.sleep(0.001)
           return None
