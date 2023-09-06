@@ -5,9 +5,6 @@ from os import listdir
 
 from model.vision.camerasModel import CameraHandlerModel
 
-#from view.vision.camerasView import 
-
-
 class CameraHandler():
   """Classe que gerencia as câmeras do sistema permitindo rápida troca e retorno simples de frames"""
   def __init__(self):
