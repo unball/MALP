@@ -5,6 +5,7 @@ class CameraHandlerView():
   """Classe que gerencia a view do gerenciador de câmeras"""
   
   def __init__(self, controller, cameraHandler, menuButton):
+    
     self.__cameraHandler = cameraHandler
     """Mantém referência ao gerenciador de câmeras"""
     
@@ -19,9 +20,11 @@ class CameraHandlerView():
     
     # Carrega os elementos de interface gráfica
     builder = Gtk.Builder.new_from_file(resource_filename(__name__, "cameras.ui"))
-    
+
     self.__cameraPopover = builder.get_object("cameraPopover")
     """Referência ao objeto de interface gráfica `cameraPopover`"""
+    
+    self.__show_rotate = builder.get_object("girar_campo")
     
     self.__cameraPopoverCamList = builder.get_object("cameraPopoverCamList")
     """Referência ao objeto de interface gráfica `cameraPopoverCamList`, que contém a lista de câmeras"""
@@ -39,11 +42,19 @@ class CameraHandlerView():
     self.add_to_list_box(self.__cameraPopoverCamList, -1, "Padrão")
     
     # Adiciona os sinais
+    #builder.get_object("girar_campo").connect("state-set", )
+
+    self.__show_rotate.connect("state-set", self.update_rotate)
+    
+
     self.__menuButton.connect("toggled", self.list_cameras, self.__cameraPopoverCamList)
     self.__cameraPopoverAdjustment.connect("value-changed", self.update_camera_scale)
     self.__cameraPopoverCamList.connect("row-selected", self.select_camera)
-    
-    
+
+  def update_rotate(self, widget, value):
+    """Agenda uma mudança do rotate o valor selecionado pelo `cameraPopoverAdjustment`"""
+    self.__cameraHandler.set_rotate_field(value)
+
   def update_camera_scale(self, widget):
     """Agenda uma mudança de escala de acordo com o valor selecionado pelo `cameraPopoverAdjustment`"""
     self.__controller.addEvent(self.__cameraHandler.setScale, widget.get_value())
