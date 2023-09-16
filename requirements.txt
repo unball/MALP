@@ -4,5 +4,5 @@ scipy
 protobuf
 matplotlib
 dubins
-opencv
+opencv-python
 serial
