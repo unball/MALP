@@ -6,3 +6,5 @@ matplotlib
 dubins
 opencv-python
 serial
+pyserial
+python3-serial

@@ -50,3 +50,26 @@ As informações enviadas pelo ESP32 + radio nrf24l01 são recebidas por um nrf2
 ## Configuração da camera
 
 No Linux, a camera pode ser configurada usando uma interface gráfica do v4l, ```camset```, disponibilizada nesse [repositório do Github](https://github.com/azeam/camset). Basta seguir as instruções do repositório para conseguir usar. Lembrar de configurar o PATH caso queira usar o comando ```camset```.
+
+## WSL: Caso extra
+
+Caso esteja utilizando WSL, os requirements as vezes podem não instalar nativamente com pip, portanto utilize:
+
+```bash
+sudo apt-get install python-numpy
+sudo apt-get install python-scipy
+sudo apt-get install python-pygame
+sudo apt-get install python3-serial
+sudo apt-get install python3-matplotlib
+sudo apt-get install libgtk-3-dev
+sudo apt-get install opencv-python
+sudo apt-get install python3-opencv
+sudo apt-get install python3-cairo
+```
+
+Para rodar, por favor entre em (na ordem dada):
+
+/ALP-Winners 
+`python3 src/main.py --port 5001`
+/MainSystem
+`./main.py --port 5001`
